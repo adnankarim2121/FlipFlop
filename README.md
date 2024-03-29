@@ -1,2 +1,2 @@
 # FlipFlop
-To-Do
+Flip perspectives, change minds, and find your Flop
