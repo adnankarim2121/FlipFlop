@@ -9,7 +9,7 @@ import Typography from '@mui/material/Typography';
 import Avatar from '@mui/material/Avatar';
 import { deepOrange } from '@mui/material/colors';
 
-const UserCard: FC<UserCardDetails> = ({index, userName, title}) =>
+const UserCard: FC<UserCardDetails> = ({index, userName, title, teamOne, teamTwo, context}) =>
 {
     const [selectedTeam, setSelectedTeam] = useState<number>(0);
 
@@ -20,12 +20,15 @@ const UserCard: FC<UserCardDetails> = ({index, userName, title}) =>
     return(
         <Card key={index} sx={{ minWidth: 275 }}>
         <CardContent>
-            <Avatar sx={{ bgcolor: deepOrange[500] }}>{userName != null? userName[0] : ''}</Avatar>
+            <Avatar sx={{ bgcolor: deepOrange[500] }}>{userName != null? 'A' : ''}</Avatar>
             <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                {userName}
+                Hardcoded
             </Typography>
             <Typography variant="h5" component="div">
                 {title}
+            </Typography>
+            <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                {context}
             </Typography>
         </CardContent>
         <CardActions>
@@ -33,13 +36,13 @@ const UserCard: FC<UserCardDetails> = ({index, userName, title}) =>
                 style={{ color: selectedTeam === 1 ? 'green' : 'inherit' }}
                 onClick={() => handleTeamColor(1)}
             >
-                Team 1
+                {teamOne}
             </Button>
             <Button size="small"
                 style={{ color: selectedTeam === 2 ? 'green' : 'inherit' }}
                 onClick={() => handleTeamColor(2)}
             >
-                Team 2
+                {teamTwo}
             </Button>
         </CardActions>
     </Card>
