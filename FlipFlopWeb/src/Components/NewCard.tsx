@@ -25,6 +25,7 @@ const NewCard: React.FC<NewCardProps> = ({ onSubmit }) => {
 
     return (
         <div style={{
+            
             position: 'fixed',
             top: '50%',
             left: '50%',
