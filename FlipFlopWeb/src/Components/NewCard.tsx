@@ -3,6 +3,7 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import { Grid } from '@mui/material';
 import { UserCardDetails } from '../Interfaces/UserCardDetails';
 
 interface NewCardProps {
@@ -24,6 +25,7 @@ const NewCard: React.FC<NewCardProps> = ({ onSubmit }) => {
 
     return (
         <div style={{
+            
             position: 'fixed',
             top: '50%',
             left: '50%',
@@ -34,39 +36,53 @@ const NewCard: React.FC<NewCardProps> = ({ onSubmit }) => {
             borderRadius: '10px',
             padding: '20px',
         }}>
-            <Card>
-                <CardContent>
-                    <TextField
-                        label="Title"
-                        name="title"
-                        value={newCardDetails.title}
-                        onChange={handleInputChange}
-                    />
-                    <TextField
-                        label="Context"
-                        name="context"
-                        value={newCardDetails.context}
-                        multiline
-                        rows={4} // Set the number of rows
-                        onChange={handleInputChange}
-                    />
-                    <TextField
-                        label="Team One"
-                        name="teamOne"
-                        value={newCardDetails.teamOne}
-                        onChange={handleInputChange}
-                    />
-                    <TextField
-                        label="Team Two"
-                        name="teamTwo"
-                        value={newCardDetails.teamTwo}
-                        onChange={handleInputChange}
-                    />
-                    <Button variant="outlined" onClick={handleSubmit}>
-                        Submit
-                    </Button>
-                </CardContent>
-            </Card>
+<Card style={{ width: '500px' }}>
+    <CardContent>
+        <Grid container direction="column" spacing={2} justifyContent="center" alignItems="center">
+            <Grid item>
+                <TextField
+                    label="Title"
+                    name="title"
+                    value={newCardDetails.title}
+                    onChange={handleInputChange}
+                />
+            </Grid>
+            <Grid item>
+                <TextField
+                    label="Context"
+                    name="context"
+                    value={newCardDetails.context}
+                    multiline
+                    rows={4} // Set the number of rows
+                    onChange={handleInputChange}
+                />
+            </Grid>
+            <Grid item>
+                <TextField
+                    label="Team One"
+                    name="teamOne"
+                    value={newCardDetails.teamOne}
+                    onChange={handleInputChange}
+                />
+            </Grid>
+            <Grid item>
+                <TextField
+                    label="Team Two"
+                    name="teamTwo"
+                    value={newCardDetails.teamTwo}
+                    onChange={handleInputChange}
+                />
+            </Grid>
+            <Grid item>
+                <Button variant="outlined" onClick={handleSubmit}>
+                    Submit
+                </Button>
+            </Grid>
+        </Grid>
+    </CardContent>
+</Card>
+
+
         </div>
     );
 };

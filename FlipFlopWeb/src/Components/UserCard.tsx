@@ -7,6 +7,7 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Avatar from '@mui/material/Avatar';
+import { Grid } from "@mui/material";
 import { deepOrange } from '@mui/material/colors';
 
 const UserCard: FC<UserCardDetails> = ({index, userName, title, teamOne, teamTwo, context}) =>
@@ -32,6 +33,7 @@ const UserCard: FC<UserCardDetails> = ({index, userName, title, teamOne, teamTwo
             </Typography>
         </CardContent>
         <CardActions>
+        <Grid container justifyContent="space-between">
             <Button size="small"
                 style={{ color: selectedTeam === 1 ? 'green' : 'inherit' }}
                 onClick={() => handleTeamColor(1)}
@@ -44,7 +46,8 @@ const UserCard: FC<UserCardDetails> = ({index, userName, title, teamOne, teamTwo
             >
                 {teamTwo}
             </Button>
-        </CardActions>
+        </Grid>
+    </CardActions>
     </Card>
     )
 }
