@@ -6,4 +6,5 @@ export interface UserCardDetails
     teamOne?: string
     teamTwo?: string
     context?: string
+    link?: string
 }

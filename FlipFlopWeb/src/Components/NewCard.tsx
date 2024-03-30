@@ -20,7 +20,7 @@ const NewCard: React.FC<NewCardProps> = ({ onSubmit }) => {
 
     const handleSubmit = () => {
         onSubmit(newCardDetails);
-        setNewCardDetails({ userName: '', title: '', teamOne: '', teamTwo: '', context:'' });
+        setNewCardDetails({ userName: '', title: '', teamOne: '', teamTwo: '', context:'', link:'' });
     };
 
     return (
@@ -54,6 +54,15 @@ const NewCard: React.FC<NewCardProps> = ({ onSubmit }) => {
                     value={newCardDetails.context}
                     multiline
                     rows={4} // Set the number of rows
+                    onChange={handleInputChange}
+                />
+            </Grid>
+            <Grid item>
+                <TextField
+                    label="Link"
+                    name="link"
+                    value={newCardDetails.link}
+                    multiline
                     onChange={handleInputChange}
                 />
             </Grid>

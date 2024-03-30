@@ -6,7 +6,7 @@ import UserCardDisplay from "./UserCardDisplay";
 function QuestionHomePage()
 {
     const location = useLocation();
-    const { title, teamOne, teamTwo, context, userName } = location.state;
+    const { title, teamOne, teamTwo, context, userName, link } = location.state;
 
 
 
@@ -26,6 +26,7 @@ function QuestionHomePage()
                         context={context}
                         teamOne={teamOne} 
                         teamTwo={teamTwo}
+                        link={link}
                         />
                     </div>
 

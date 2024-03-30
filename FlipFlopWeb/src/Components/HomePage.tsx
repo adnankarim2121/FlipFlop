@@ -15,9 +15,9 @@ function HomePage()
     };
     
     const [newCommunities, setNewCommunities] = useState<CommunityCardDetails[]>(
-        [{index:0, title:'NBA', description:'Lebron or MJ?'},
-        {index:1, title:'🇵🇸 vs 🇮🇱', description:'Who is actually the enemy?'},
-        {index:2, title:'AITAH', description:'The title says it.'}])
+        [{index:0, title:'NBA', description:'All NBA Debates'},
+        {index:1, title:'Politics', description:'All Political Debates'},
+        {index:2, title:'UEFA CL', description:'All Champion Leagues Debate'}])
     const [showNewCommunity, setShowNewCommunity] = useState<Boolean>(false);
 
     const handleAddIconClick = () => {
