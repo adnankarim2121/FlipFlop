@@ -1,10 +1,16 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import HomePage from './Components/HomePage.tsx'
-import './index.css'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import HomePage from './Components/HomePage';
+import CommunityHomePage from './Components/CommunityHomePage';
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
-    <HomePage />
-  </React.StrictMode>,
-)
+function Main() {
+    return (
+        <Router>
+            <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/communityHomePage" element={<CommunityHomePage />} />
+            </Routes>
+        </Router>
+    );
+}
+
+export default Main;
