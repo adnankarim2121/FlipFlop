@@ -11,12 +11,13 @@ function CommunityHomePage()
 {
     const navigate = useNavigate();
 
-    const redirectToQuestionHomePage = (title: string | undefined, teamOne: string | undefined, teamTwo:string | undefined, context:string | undefined, userName:string | undefined) => {
+    const redirectToQuestionHomePage = (title: string | undefined, teamOne: string | undefined, teamTwo:string | undefined, context:string | undefined, userName:string | undefined, link:string | undefined) => {
         navigate('/questionHomePage', { state: { title: title || '', 
         teamOne: teamOne || '',
         teamTwo: teamTwo || '',
         context: context || '',
-        userName: userName || '' } });
+        userName: userName || '',
+        link:link || '' } });
     };
     
     const location = useLocation();
@@ -45,7 +46,7 @@ function CommunityHomePage()
                 {newCards.map((userCard, index) => (
                         <div style={{marginRight:'50px'}} 
                         onClick={() => {
-                            redirectToQuestionHomePage(userCard.title, userCard.teamOne, userCard.teamTwo, userCard.context, userCard.userName);
+                            redirectToQuestionHomePage(userCard.title, userCard.teamOne, userCard.teamTwo, userCard.context, userCard.userName, userCard.link);
                         }}>
                         <UserCard 
                         key={index} 
@@ -53,7 +54,8 @@ function CommunityHomePage()
                         title={userCard.title} 
                         context={userCard.context}
                         teamOne={userCard.teamOne} 
-                        teamTwo={userCard.teamTwo}/>
+                        teamTwo={userCard.teamTwo}
+                        link={userCard.link}/>
                     </div>
                     ))}
             </div>
