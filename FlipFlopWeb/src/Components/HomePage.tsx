@@ -10,7 +10,7 @@ function HomePage()
 {
     const navigate = useNavigate();
 
-    const redirectToCommunityHomePage = (title: string, description: string) => {
+    const redirectToCommunityHomePage = (title: string | undefined, description: string | undefined) => {
         navigate('/communityHomePage', { state: { title: title || '', description: description || '' } });
     };
     
@@ -38,9 +38,7 @@ function HomePage()
                 {newCommunities.map((communityCard) => (
                         <div style={{marginRight:'50px'}} 
                         onClick={() => {
-                            if (communityCard.title && communityCard.description) {
-                                redirectToCommunityHomePage(communityCard.title, communityCard.description);
-                            }
+                            redirectToCommunityHomePage(communityCard.title, communityCard.description);
                         }}>
                             <CommunityCard 
                             key={communityCard.index} 
