@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { UserCardDetails } from "../Interfaces/UserCardDetails";
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import UserCard from './UserCard';
 import NewCard from './NewCard';
 import AddButton from './AddButton';
@@ -9,6 +9,16 @@ import { Typography } from "@mui/material";
 
 function CommunityHomePage()
 {
+    const navigate = useNavigate();
+
+    const redirectToQuestionHomePage = (title: string | undefined, teamOne: string | undefined, teamTwo:string | undefined, context:string | undefined, userName:string | undefined) => {
+        navigate('/questionHomePage', { state: { title: title || '', 
+        teamOne: teamOne || '',
+        teamTwo: teamTwo || '',
+        context: context || '',
+        userName: userName || '' } });
+    };
+    
     const location = useLocation();
     const { title, description } = location.state;
     const [newCards, setNewCards] = useState<UserCardDetails[]>([])
@@ -33,7 +43,10 @@ function CommunityHomePage()
     <div style={{ position: 'relative', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
              <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center' }}>
                 {newCards.map((userCard, index) => (
-                    <div style={{marginRight:'50px'}}>
+                        <div style={{marginRight:'50px'}} 
+                        onClick={() => {
+                            redirectToQuestionHomePage(userCard.title, userCard.teamOne, userCard.teamTwo, userCard.context, userCard.userName);
+                        }}>
                         <UserCard 
                         key={index} 
                         userName={userCard.userName} 
