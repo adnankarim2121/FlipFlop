@@ -6,7 +6,8 @@ const comments = {
   id: 1,
   items: [],
 };
-const CommentParent = () => {
+const CommentParent = ({teamPlaceHolder}:
+    {teamPlaceHolder : string | undefined}) => {
   const [commentsData, setCommentsData] = useState(comments);
 
   const { insertNode, editNode, deleteNode } = useNode();
@@ -34,6 +35,7 @@ const CommentParent = () => {
         handleEditNode={handleEditNode}
         handleDeleteNode={handleDeleteNode}
         comment={commentsData}
+        teamPlaceHolder={teamPlaceHolder || ''}
       />
     </div>
   );

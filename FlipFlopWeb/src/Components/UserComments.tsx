@@ -8,11 +8,13 @@ const UserComments = ({
   handleEditNode,
   handleDeleteNode,
   comment,
+  teamPlaceHolder
 }: {
     handleInsertNode: any,
     handleEditNode: any,
     handleDeleteNode: any,
     comment: any,
+    teamPlaceHolder: string
   }) => {
   const [input, setInput] = useState("");
   const [editMode, setEditMode] = useState(false);
@@ -57,7 +59,7 @@ const UserComments = ({
               autoFocus
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Add comment"
+              placeholder={teamPlaceHolder}
             />
 
             <CommentAction
@@ -165,6 +167,7 @@ const UserComments = ({
               handleEditNode={handleEditNode}
               handleDeleteNode={handleDeleteNode}
               comment={cmnt}
+              teamPlaceHolder={teamPlaceHolder}
             />
           );
         })}

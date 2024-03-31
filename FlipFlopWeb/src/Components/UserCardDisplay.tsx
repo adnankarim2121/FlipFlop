@@ -70,6 +70,26 @@ const UserCardDisplay: FC<UserCardDetails> = ({index, userName, title, teamOne, 
     {
         setSelectedTeam(team);
     }
+
+    const handleTeamPlaceHolder = () =>
+    {
+        if (selectedTeam == 0)
+        {
+            return (<></>)
+        }
+        else if (selectedTeam == 1)
+        {
+            return (<CommentParent teamPlaceHolder={teamOne}/>)
+        }
+        else if (selectedTeam == 2)
+        {
+            return (<CommentParent teamPlaceHolder="Undecided"/>)
+        }
+        else if (selectedTeam == 3)
+        {
+            return (<CommentParent teamPlaceHolder={teamTwo}/>)
+        }
+    }
     return(
         <div>
         <Card key={index} sx={{ minWidth: 575 }}>
@@ -98,12 +118,18 @@ const UserCardDisplay: FC<UserCardDetails> = ({index, userName, title, teamOne, 
                         style={{ color: selectedTeam === 2 ? 'green' : 'inherit' }}
                         onClick={() => handleTeamColor(2)}
                     >
+                        Undecided
+                    </Button>
+                    <Button size="small"
+                        style={{ color: selectedTeam === 3 ? 'green' : 'inherit' }}
+                        onClick={() => handleTeamColor(3)}
+                    >
                         {teamTwo}
                     </Button>
                 </Grid>
             </CardActions>
         </Card>
-        {selectedTeam == 1 ? <CommentParent/> : <></>}
+        {handleTeamPlaceHolder()}
         </div>
     )
 }
