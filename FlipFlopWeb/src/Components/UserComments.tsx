@@ -1,7 +1,7 @@
 "use client";
 
 import { RoomProvider } from "/Users/adnankarim/Desktop/FlipFlop/FlipFlopWeb/liveblocks.config.ts";
-import { Room } from "./Room";
+import Room from "./Room";
 import { ClientSideSuspense } from "@liveblocks/react";
 
 function UserComments() {
