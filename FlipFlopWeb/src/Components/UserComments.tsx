@@ -1,13 +1,15 @@
 import { useState, useRef, useEffect } from "react";
 import CommentAction from "./CommentAction";
-import  DownArrow  from "../assets/down-arrow.svg";
-import UpArrow  from "../assets/up-arrow.svg";
 import { FaRegComment } from "react-icons/fa";
 import { BsReply } from "react-icons/bs";
 import { CiEdit } from "react-icons/ci";
 import { MdOutlineDeleteOutline, MdOutlineCancel } from "react-icons/md";
 import { TbFlipFlops } from "react-icons/tb";
 import { CiCircleCheck } from "react-icons/ci";
+import Typography from '@mui/material/Typography';
+import Avatar from '@mui/material/Avatar';
+import { deepOrange } from '@mui/material/colors';
+import { Grid } from "@mui/material";
 
 const UserComments = ({
   handleInsertNode,
@@ -56,7 +58,17 @@ const UserComments = ({
 
   return (
     <div style={{paddingTop:'50'}}>
-      <div className={comment.id === 1 ? "inputContainer" : "commentContainer"}>
+    <Grid container direction="row" spacing={2} alignItems="center">
+        <Grid item>
+            <Avatar sx={{ bgcolor: deepOrange[500], width: 20, height: 20, fontSize: 8 }}>a</Avatar>
+        </Grid>
+        <Grid item>
+            <Typography sx={{ fontSize: 8 }} color="text.secondary" gutterBottom>
+                ak2121
+            </Typography>
+        </Grid>
+    </Grid>
+      <div className={comment.id === 1 ? "inputContainer" : "commentContainer"} style={{marginTop:5}}>
         {comment.id === 1 ? (
           <>
             <input
@@ -124,11 +136,6 @@ const UserComments = ({
                     type={
                       <>
                         {expand}{" "}
-                        {/* {expand ? (
-                          <UpArrow />
-                        ) : (
-                         <DownArrow />
-                        )}{" "} */}
                         Reply
                       </>
                     }

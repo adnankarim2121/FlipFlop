@@ -28,6 +28,7 @@ const CommentParent = ({teamPlaceHolder}:
     setCommentsData(temp);
   };
 
+
   return (
     <div className="App">
       <UserComments
