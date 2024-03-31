@@ -7,7 +7,7 @@ import { ClientSideSuspense } from "@liveblocks/react";
 function UserComments() {
   return (
     <RoomProvider id="my-room" initialPresence={{}}>
-      <ClientSideSuspense fallback={<div>Loading…</div>}>
+      <ClientSideSuspense fallback={<div>Loading….</div>}>
         {() => <Room />}
       </ClientSideSuspense>
     </RoomProvider>
