@@ -9,6 +9,7 @@ import Typography from '@mui/material/Typography';
 import Avatar from '@mui/material/Avatar';
 import { Grid } from "@mui/material";
 import { deepOrange } from '@mui/material/colors';
+import CommentParent from "./CommentParent";
 
 const UserCardDisplay: FC<UserCardDetails> = ({index, userName, title, teamOne, teamTwo, context, link}) =>
 {
@@ -70,6 +71,7 @@ const UserCardDisplay: FC<UserCardDetails> = ({index, userName, title, teamOne, 
         setSelectedTeam(team);
     }
     return(
+        <div>
         <Card key={index} sx={{ minWidth: 575 }}>
             <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <Avatar sx={{ bgcolor: deepOrange[500] }}>{userName != null ? 'A' : ''}</Avatar>
@@ -101,6 +103,8 @@ const UserCardDisplay: FC<UserCardDetails> = ({index, userName, title, teamOne, 
                 </Grid>
             </CardActions>
         </Card>
+        {selectedTeam == 1 ? <CommentParent/> : <></>}
+        </div>
     )
 }
 

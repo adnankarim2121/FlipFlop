@@ -1,5 +1,3 @@
-import React from "react";
-
 const CommentAction = ({ handleClick, type, className }:
     {
         handleClick: any,

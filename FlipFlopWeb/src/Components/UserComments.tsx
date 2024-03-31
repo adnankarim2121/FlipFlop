@@ -2,7 +2,6 @@ import { useState, useRef, useEffect } from "react";
 import CommentAction from "./CommentAction";
 import  DownArrow  from "../assets/down-arrow.svg";
 import UpArrow  from "../assets/up-arrow.svg";
-import Header from "./Header";
 
 const UserComments = ({
   handleInsertNode,
@@ -48,7 +47,7 @@ const UserComments = ({
   };
 
   return (
-    <div>
+    <div style={{paddingTop:'50'}}>
       <div className={comment.id === 1 ? "inputContainer" : "commentContainer"}>
         {comment.id === 1 ? (
           <>
@@ -58,12 +57,12 @@ const UserComments = ({
               autoFocus
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="type..."
+              placeholder="Add comment"
             />
 
             <CommentAction
               className="reply comment"
-              type="COMMENT"
+              type="Reply"
               handleClick={onAddComment}
             />
           </>
@@ -83,12 +82,12 @@ const UserComments = ({
                 <>
                   <CommentAction
                     className="reply"
-                    type="SAVE"
+                    type="Save"
                     handleClick={onAddComment}
                   />
                   <CommentAction
                     className="reply"
-                    type="CANCEL"
+                    type="Cancel"
                     handleClick={() => {
                       if (inputRef.current)
                         inputRef.current.innerText = comment.name;
@@ -108,22 +107,27 @@ const UserComments = ({
                         ) : (
                          <DownArrow />
                         )}{" "} */}
-                        REPLY
+                        Reply
                       </>
                     }
                     handleClick={handleNewComment}
                   />
                   <CommentAction
                     className="reply"
-                    type="EDIT"
+                    type="Edit"
                     handleClick={() => {
                       setEditMode(true);
                     }}
                   />
                   <CommentAction
                     className="reply"
-                    type="DELETE"
+                    type="Delete"
                     handleClick={handleDelete}
+                  />
+                  <CommentAction
+                    className="reply"
+                    type="Switch"
+                    handleClick={()=>{}}
                   />
                 </>
               )}
@@ -141,10 +145,10 @@ const UserComments = ({
               autoFocus
               onChange={(e) => setInput(e.target.value)}
             />
-            <CommentAction className="reply" type="REPLY" handleClick={onAddComment} />
+            <CommentAction className="reply" type="Reply" handleClick={onAddComment} />
             <CommentAction
               className="reply"
-              type="CANCEL"
+              type="Cancel"
               handleClick={() => {
                 setShowInput(false);
                 if (!comment?.items?.length) setExpand(false);
@@ -165,9 +169,6 @@ const UserComments = ({
           );
         })}
       </div>
-      <div style={{ position: 'fixed', top: '20px', left: '0%', zIndex: '1000' }}>
-                <Header/>
-    </div>
     </div>
   );
 };

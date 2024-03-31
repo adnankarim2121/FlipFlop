@@ -4,14 +4,16 @@ import Header from "./Header";
 import { CommunityCardDetails } from "../Interfaces/CommunityCardDetails";
 import CommunityCard from "./CommunityCard";
 import NewCommunityCard from "./NewCommunityCard";
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate, useParams } from 'react-router-dom'; 
 
 function HomePage()
 {
     const navigate = useNavigate();
+    var { url } = useParams();
 
     const redirectToCommunityHomePage = (title: string | undefined, description: string | undefined) => {
-        navigate('/communityHomePage', { state: { title: title || '', description: description || '' } });
+        url = title?.replace(/\s/g, "")
+        navigate(`/${url}`, { state: { title: title || '', description: description || '' } });
     };
     
     const [newCommunities, setNewCommunities] = useState<CommunityCardDetails[]>(

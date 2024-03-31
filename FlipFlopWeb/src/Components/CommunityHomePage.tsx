@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { UserCardDetails } from "../Interfaces/UserCardDetails";
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import UserCard from './UserCard';
 import NewCard from './NewCard';
 import AddButton from './AddButton';
@@ -10,9 +10,11 @@ import { Typography } from "@mui/material";
 function CommunityHomePage()
 {
     const navigate = useNavigate();
+    var { url } = useParams();
 
     const redirectToQuestionHomePage = (title: string | undefined, teamOne: string | undefined, teamTwo:string | undefined, context:string | undefined, userName:string | undefined, link:string | undefined) => {
-        navigate('/questionHomePage', { state: { title: title || '', 
+        url = title?.replace(/\s/g, "")
+        navigate(`/${url}`, { state: { title: title || '', 
         teamOne: teamOne || '',
         teamTwo: teamTwo || '',
         context: context || '',
