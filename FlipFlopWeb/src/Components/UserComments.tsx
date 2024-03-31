@@ -2,6 +2,12 @@ import { useState, useRef, useEffect } from "react";
 import CommentAction from "./CommentAction";
 import  DownArrow  from "../assets/down-arrow.svg";
 import UpArrow  from "../assets/up-arrow.svg";
+import { FaRegComment } from "react-icons/fa";
+import { BsReply } from "react-icons/bs";
+import { CiEdit } from "react-icons/ci";
+import { MdOutlineDeleteOutline, MdOutlineCancel } from "react-icons/md";
+import { TbFlipFlops } from "react-icons/tb";
+import { CiCircleCheck } from "react-icons/ci";
 
 const UserComments = ({
   handleInsertNode,
@@ -62,11 +68,14 @@ const UserComments = ({
               placeholder={teamPlaceHolder}
             />
 
-            <CommentAction
-              className="reply comment"
-              type="Reply"
-              handleClick={onAddComment}
-            />
+            <FaRegComment onClick={onAddComment} style={{marginLeft:'10'}}> 
+                <CommentAction
+                            className="reply comment"
+                            type="Reply"
+                            handleClick={onAddComment}
+                            />
+            </FaRegComment>
+
           </>
         ) : (
           <>
@@ -82,12 +91,20 @@ const UserComments = ({
             <div style={{ display: "flex", marginTop: "5px" }}>
               {editMode ? (
                 <>
-                  <CommentAction
+                <CiCircleCheck onClick={onAddComment} style={{marginRight:'10'}}>
+                <CommentAction
                     className="reply"
                     type="Save"
                     handleClick={onAddComment}
                   />
-                  <CommentAction
+                </CiCircleCheck>
+
+                <MdOutlineCancel onClick={() => {
+                      if (inputRef.current)
+                        inputRef.current.innerText = comment.name;
+                      setEditMode(false);
+                    }} style={{marginRight:'10'}}>
+                <CommentAction
                     className="reply"
                     type="Cancel"
                     handleClick={() => {
@@ -96,10 +113,13 @@ const UserComments = ({
                       setEditMode(false);
                     }}
                   />
+                </MdOutlineCancel>
+
                 </>
               ) : (
                 <>
-                  <CommentAction
+                <BsReply onClick={handleNewComment} style={{marginRight:'10'}}>
+                <CommentAction
                     className="reply"
                     type={
                       <>
@@ -114,23 +134,33 @@ const UserComments = ({
                     }
                     handleClick={handleNewComment}
                   />
-                  <CommentAction
+                </BsReply>
+                <CiEdit onClick={() => {
+                      setEditMode(true);}} style={{marginRight:'10'}}> 
+                <CommentAction
                     className="reply"
                     type="Edit"
                     handleClick={() => {
                       setEditMode(true);
                     }}
                   />
-                  <CommentAction
-                    className="reply"
-                    type="Delete"
-                    handleClick={handleDelete}
-                  />
-                  <CommentAction
-                    className="reply"
-                    type="Switch"
-                    handleClick={()=>{}}
-                  />
+                </CiEdit>
+                <MdOutlineDeleteOutline onClick={handleDelete} style={{marginRight:'10'}}>
+                    <CommentAction
+                        className="reply"
+                        type="Delete"
+                        handleClick={handleDelete}
+                    />
+                </MdOutlineDeleteOutline>
+
+                <TbFlipFlops onClick={() => {}} style={{marginRight:'10'}}>
+                    <CommentAction
+                        className="reply"
+                        type="Switch"
+                        handleClick={()=>{}}
+                    />
+                </TbFlipFlops>
+
                 </>
               )}
             </div>
@@ -147,15 +177,23 @@ const UserComments = ({
               autoFocus
               onChange={(e) => setInput(e.target.value)}
             />
-            <CommentAction className="reply" type="Reply" handleClick={onAddComment} />
-            <CommentAction
-              className="reply"
-              type="Cancel"
-              handleClick={() => {
-                setShowInput(false);
-                if (!comment?.items?.length) setExpand(false);
-              }}
-            />
+            <BsReply onClick={onAddComment} style={{marginRight:'10'}}>
+                <CommentAction className="reply" type="Reply" handleClick={onAddComment} />
+            </BsReply>
+            <MdOutlineCancel onClick={() => {
+                    setShowInput(false);
+                    if (!comment?.items?.length) setExpand(false);
+                }} style={{marginRight:'10'}}>
+                <CommentAction
+                className="reply"
+                type="Cancel"
+                handleClick={() => {
+                    setShowInput(false);
+                    if (!comment?.items?.length) setExpand(false);
+                }}
+                />
+            </MdOutlineCancel>
+
           </div>
         )}
 
