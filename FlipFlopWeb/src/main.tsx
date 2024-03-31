@@ -6,11 +6,11 @@ import QuestionHomePage from './Components/QuestionHomePage';
 function Main() {
     return (
         <Router>
-            <Routes>
+              <Routes>
                 <Route path="/" element={<HomePage />} />
-                <Route path="/:url" element={<CommunityHomePage />} />
-                <Route path="/:url" element={<QuestionHomePage />} />
-            </Routes>
+                <Route path="/community/:urlCommunity" element={<CommunityHomePage />} />
+                <Route path="/question/:urlQuestion" element={<QuestionHomePage />} />
+              </Routes>
         </Router>
     );
 }

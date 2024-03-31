@@ -10,11 +10,11 @@ import { Typography } from "@mui/material";
 function CommunityHomePage()
 {
     const navigate = useNavigate();
-    var { url } = useParams();
+    var { urlQuestion } = useParams();
 
     const redirectToQuestionHomePage = (title: string | undefined, teamOne: string | undefined, teamTwo:string | undefined, context:string | undefined, userName:string | undefined, link:string | undefined) => {
-        url = title?.replace(/\s/g, "")
-        navigate(`/${url}`, { state: { title: title || '', 
+        urlQuestion = title?.replace(/\s/g, "")
+        navigate(`/question/${urlQuestion}`, { state: { title: title || '', 
         teamOne: teamOne || '',
         teamTwo: teamTwo || '',
         context: context || '',

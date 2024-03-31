@@ -11,6 +11,7 @@ function QuestionHomePage()
       useEffect (()=>
       {
         //For later, we'll populate existing question with previous user data
+        console.log("in question comp")
       }, [])
 
       return (

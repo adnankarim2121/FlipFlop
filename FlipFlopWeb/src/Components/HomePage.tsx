@@ -9,11 +9,11 @@ import { useNavigate, useParams } from 'react-router-dom';
 function HomePage()
 {
     const navigate = useNavigate();
-    var { url } = useParams();
+    var { urlCommunity } = useParams();
 
     const redirectToCommunityHomePage = (title: string | undefined, description: string | undefined) => {
-        url = title?.replace(/\s/g, "")
-        navigate(`/${url}`, { state: { title: title || '', description: description || '' } });
+        urlCommunity = title?.replace(/\s/g, "")
+        navigate(`/community/${urlCommunity}`, { state: { title: title || '', description: description || '' } });
     };
     
     const [newCommunities, setNewCommunities] = useState<CommunityCardDetails[]>(
