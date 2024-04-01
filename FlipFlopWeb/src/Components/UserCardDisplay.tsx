@@ -10,10 +10,14 @@ import Avatar from '@mui/material/Avatar';
 import { Grid } from "@mui/material";
 import { deepOrange } from '@mui/material/colors';
 import CommentParent from "./CommentParent";
+import { TbFlipFlops } from "react-icons/tb";
+import { TiFlowSwitch } from "react-icons/ti";
 
 const UserCardDisplay: FC<UserCardDetails> = ({index, userName, title, teamOne, teamTwo, context, link}) =>
 {
     const [selectedTeam, setSelectedTeam] = useState<number>(0);
+    const [teamVote, setSelectedTeamVote] = useState<string>('');
+    const [allComments, setShowAllComments] = useState<boolean>(false);
 
     const renderLink = (link: string | undefined) => {
         console.log("my link", link)
@@ -71,6 +75,14 @@ const UserCardDisplay: FC<UserCardDetails> = ({index, userName, title, teamOne, 
         setSelectedTeam(team);
     }
 
+    const handleTeamVote = (team?:string) =>
+    {
+        if (team != null)
+        {
+            setSelectedTeamVote(team)
+        }
+    }
+
     const handleTeamPlaceHolder = () =>
     {
         if (selectedTeam == 4)
@@ -79,56 +91,74 @@ const UserCardDisplay: FC<UserCardDetails> = ({index, userName, title, teamOne, 
         }
         else if (selectedTeam == 5)
         {
-            return (<CommentParent teamPlaceHolder={teamOne} teamValue={selectedTeam}/>)
+            return (<CommentParent teamPlaceHolder={teamOne} teamValue={selectedTeam} teamVote = {teamVote} allComments = {allComments}/>)
         }
         else if (selectedTeam == 6)
         {
-            return (<CommentParent teamPlaceHolder="Undecided" teamValue={selectedTeam}/>)
+            return (<CommentParent teamPlaceHolder="Undecided" teamValue={selectedTeam} teamVote = {teamVote} allComments = {allComments}/>)
         }
         else if (selectedTeam == 7)
         {
-            return (<CommentParent teamPlaceHolder={teamTwo} teamValue={selectedTeam}/>)
+            return (<CommentParent teamPlaceHolder={teamTwo} teamValue={selectedTeam} teamVote = {teamVote} allComments = {allComments}/>)
         }
     }
     return(
         <div>
-        <Card key={index} sx={{ minWidth: 575 }}>
-            <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <Avatar sx={{ bgcolor: deepOrange[500] }}>{userName != null ? 'A' : ''}</Avatar>
-                <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                    Hardcoded
-                </Typography>
-                <Typography variant="h5" component="div">
-                    {title}
-                </Typography>
-                <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                    {context}
-                </Typography>
-                {renderLink(link)}
-            </CardContent>
-            <CardActions>
-                <Grid container justifyContent="space-between">
-                    <Button size="small"
-                        style={{ color: selectedTeam === 1 ? 'green' : 'inherit' }}
-                        onClick={() => handleTeamColor(5)}
-                    >
-                        {teamOne}
-                    </Button>
-                    <Button size="small"
-                        style={{ color: selectedTeam === 2 ? 'green' : 'inherit' }}
-                        onClick={() => handleTeamColor(6)}
-                    >
-                        Undecided
-                    </Button>
-                    <Button size="small"
-                        style={{ color: selectedTeam === 3 ? 'green' : 'inherit' }}
-                        onClick={() => handleTeamColor(7)}
-                    >
-                        {teamTwo}
-                    </Button>
-                </Grid>
-            </CardActions>
-        </Card>
+        <Card key={index} sx={{ minWidth: 575, display: 'flex', flexDirection: 'column' }}>
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', position: 'relative' }}>
+          <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative' }}>
+            <Avatar sx={{ bgcolor: deepOrange[500] }}>{userName != null ? 'A' : ''}</Avatar>
+            <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+              Hardcoded
+            </Typography>
+            <Typography variant="h5" component="div">
+              {title}
+            </Typography>
+            <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+              {context}
+            </Typography>
+            {renderLink(link)}
+          </CardContent>
+          <div style={{ position: 'absolute', top: 0, right: 0 }} onClick={() => setShowAllComments(!allComments)}>
+            <TiFlowSwitch />
+          </div>
+        </div>
+        <CardActions>
+          <Grid container justifyContent="space-between">
+            <div>
+              <Button
+                size="small"
+                style={{ color: selectedTeam === 5 ? 'green' : 'inherit' }}
+                onClick={() => handleTeamColor(5)}
+              >
+                {teamOne}
+              </Button>
+              <TbFlipFlops onClick={() => handleTeamVote(teamOne)} />
+            </div>
+            <div>
+              <Button
+                size="small"
+                style={{ color: selectedTeam === 6 ? 'green' : 'inherit' }}
+                onClick={() => handleTeamColor(6)}
+              >
+                Undecided
+              </Button>
+              <TbFlipFlops onClick={() => handleTeamVote('Undecided')} />
+            </div>
+            <div>
+              <Button
+                size="small"
+                style={{ color: selectedTeam === 7 ? 'green' : 'inherit' }}
+                onClick={() => handleTeamColor(7)}
+              >
+                {teamTwo}
+              </Button>
+              <TbFlipFlops onClick={() => handleTeamVote(teamTwo)} />
+            </div>
+          </Grid>
+        </CardActions>
+      </Card>
+      
         {handleTeamPlaceHolder()}
         </div>
     )

@@ -7,8 +7,8 @@ const comments = {
   items: [],
   teamValue: 0
 };
-const CommentParent = ({teamPlaceHolder, teamValue}:
-    {teamPlaceHolder? : string, teamValue? : number}) => {
+const CommentParent = ({teamPlaceHolder, teamValue, teamVote, allComments}:
+    {teamPlaceHolder? : string, teamValue? : number, teamVote?: string, allComments?:boolean}) => {
   const [commentsData, setCommentsData] = useState(comments);
 
   const { insertNode, editNode, deleteNode } = useNode();
@@ -39,6 +39,8 @@ const CommentParent = ({teamPlaceHolder, teamValue}:
         comment={commentsData}
         teamPlaceHolder={teamPlaceHolder || ''}
         teamValue={teamValue}
+        teamVote={teamVote}
+        allComments={allComments}
       />
     </div>
   );

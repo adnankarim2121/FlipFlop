@@ -17,14 +17,18 @@ const UserComments = ({
   handleDeleteNode,
   comment,
   teamPlaceHolder,
-  teamValue
+  teamValue,
+  teamVote,
+  allComments
 }: {
     handleInsertNode: any,
     handleEditNode: any,
     handleDeleteNode: any,
     comment: any,
-    teamPlaceHolder: string
-    teamValue?: number
+    teamPlaceHolder: string,
+    teamValue?: number,
+    teamVote?: string,
+    allComments?: boolean
   }) => {
   const [input, setInput] = useState("");
   const [editMode, setEditMode] = useState(false);
@@ -67,6 +71,11 @@ const UserComments = ({
         <Grid item>
             <Typography sx={{ fontSize: 8 }} color="text.secondary" gutterBottom>
                 ak2121
+            </Typography>
+        </Grid>
+        <Grid item>
+            <Typography sx={{ fontSize: 8 }} color="text.secondary" >
+                {teamVote}
             </Typography>
         </Grid>
     </Grid>
@@ -206,19 +215,21 @@ const UserComments = ({
           </div>
         )}
 
-    {comment?.items?.filter((cmnt:any) => cmnt.teamValue === teamValue)?.map((filteredCmnt:any) => {
-        console.log("team val is", teamValue)
-    return (
-        <UserComments
-        key={filteredCmnt.id}
-        handleInsertNode={handleInsertNode}
-        handleEditNode={handleEditNode}
-        handleDeleteNode={handleDeleteNode}
-        comment={filteredCmnt}
-        teamPlaceHolder={teamPlaceHolder}
-        />
-    );
-    })}
+{comment?.items?.filter((cmnt:any) => allComments || cmnt.teamValue === teamValue)?.map((filteredCmnt:any) => {
+  return (
+    <UserComments
+      key={filteredCmnt.id}
+      handleInsertNode={handleInsertNode}
+      handleEditNode={handleEditNode}
+      handleDeleteNode={handleDeleteNode}
+      comment={filteredCmnt}
+      teamPlaceHolder={teamPlaceHolder}
+      teamVote={teamVote}
+      allComments={allComments}
+      teamValue={filteredCmnt.teamValue}
+    />
+  );
+})}
       </div>
     </div>
   );
