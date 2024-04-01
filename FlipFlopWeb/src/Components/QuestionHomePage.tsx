@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import Header from "./Header";
 import UserCardDisplay from "./UserCardDisplay";
 
@@ -8,24 +8,16 @@ function QuestionHomePage()
     const location = useLocation();
     const { title, teamOne, teamTwo, context, userName, link } = location.state;
 
-    const navigate = useNavigate();
-
-    const redirectToComments = (title: string | undefined, description: string | undefined) => {
-        navigate('/commentDiscussion', { state: { title: title || '', description: description || '' } });
-    };
-
       useEffect (()=>
       {
         //For later, we'll populate existing question with previous user data
+        console.log("in question comp")
       }, [])
 
       return (
     <div style={{ position: 'relative', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
              <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center' }}>
-                    <div style={{marginRight:'50px'}}
-                    onClick={() => {
-                        redirectToComments('', '');
-                    }}>
+                    <div style={{marginRight:'50px'}}>
                         <UserCardDisplay 
                         key={0} 
                         userName={userName} 
