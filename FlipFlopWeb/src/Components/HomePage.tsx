@@ -35,20 +35,22 @@ function HomePage()
       }, [])
 
       return (
-    <div style={{ position: 'relative', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-             <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center' }}>
+        <div style={{ position: 'relative', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', overflowX: 'auto', whiteSpace: 'nowrap' }}>
                 {newCommunities.map((communityCard) => (
-                        <div style={{marginRight:'50px'}} 
+                    <div style={{ marginRight: '50px' }} 
                         onClick={() => {
                             redirectToCommunityHomePage(communityCard.title, communityCard.description);
-                        }}>
-                            <CommunityCard 
-                            key={communityCard.index} 
+                        }}
+                        key={communityCard.index}>
+                        <CommunityCard 
                             title={communityCard.title} 
-                            description={communityCard.description}/>
-                        </div>
-                        ))}
+                            description={communityCard.description}
+                        />
+                    </div>
+                ))}
             </div>
+    
             {showNewCommunity && (
                 <div style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: '1000' }}>
                     <NewCommunityCard onSubmit={handleNewCommunityCardSubmit} />
@@ -62,6 +64,7 @@ function HomePage()
             </div>
         </div>
     );
+    
 }
 
 export default HomePage

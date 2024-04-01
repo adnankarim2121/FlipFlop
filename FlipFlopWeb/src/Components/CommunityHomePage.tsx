@@ -44,7 +44,7 @@ function CommunityHomePage()
 
       return (
     <div style={{ position: 'relative', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-             <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center' }}>
+            <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', overflowX: 'auto', whiteSpace: 'nowrap' }}>
                 {newCards.map((userCard, index) => (
                         <div style={{marginRight:'50px'}} 
                         onClick={() => {
