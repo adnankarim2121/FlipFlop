@@ -18,6 +18,7 @@ const UserCardDisplay: FC<UserCardDetails> = ({index, userName, title, teamOne, 
     const [selectedTeam, setSelectedTeam] = useState<number>(0);
     const [teamVote, setSelectedTeamVote] = useState<string>('');
     const [allComments, setShowAllComments] = useState<boolean>(false);
+    const [isGreen, setIsGreen] = useState<boolean>(false);
 
     const renderLink = (link: string | undefined) => {
         console.log("my link", link)
@@ -119,8 +120,12 @@ const UserCardDisplay: FC<UserCardDetails> = ({index, userName, title, teamOne, 
             </Typography>
             {renderLink(link)}
           </CardContent>
-          <div style={{ position: 'absolute', top: 0, right: 0 }} onClick={() => setShowAllComments(!allComments)}>
-            <TiFlowSwitch />
+          <div style={{ position: 'absolute', top: 0, right: 0 }} onClick={() => 
+          {
+            setShowAllComments(!allComments);
+            setIsGreen(!isGreen);
+        }}>
+            <TiFlowSwitch  style={{ color: isGreen ? 'green' : 'black' }}/>
           </div>
         </div>
         <CardActions>
