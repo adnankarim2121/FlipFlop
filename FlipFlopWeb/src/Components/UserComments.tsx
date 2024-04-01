@@ -46,7 +46,7 @@ const UserComments = ({
       handleEditNode(comment.id, inputRef?.current?.innerText);
     } else {
       setExpand(true);
-      handleInsertNode(comment.id, input);
+      handleInsertNode(comment.id, input, teamValue);
       setShowInput(false);
       setInput("");
     }

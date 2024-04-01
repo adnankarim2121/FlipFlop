@@ -13,8 +13,8 @@ const CommentParent = ({teamPlaceHolder, teamValue}:
 
   const { insertNode, editNode, deleteNode } = useNode();
 
-  const handleInsertNode = (folderId:any, item:any) => {
-    const finalStructure = insertNode(commentsData, folderId, item, teamValue);
+  const handleInsertNode = (folderId:any, item:any, teamValueFromUser?:number) => {
+    const finalStructure = insertNode(commentsData, folderId, item, teamValueFromUser);
     setCommentsData(finalStructure);
   };
 
