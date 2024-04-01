@@ -10,6 +10,7 @@ import Typography from '@mui/material/Typography';
 import Avatar from '@mui/material/Avatar';
 import { deepOrange } from '@mui/material/colors';
 import { Grid } from "@mui/material";
+import { useUser } from "../hooks/useUser";
 
 const UserComments = ({
   handleInsertNode,
@@ -35,6 +36,7 @@ const UserComments = ({
   const [showInput, setShowInput] = useState(false);
   const [expand, setExpand] = useState(false);
   const inputRef = useRef<HTMLSpanElement>(null);
+  const [userInfo, setUserInfo] = useUser();
 
   useEffect(() => {
     inputRef?.current?.focus();
@@ -66,11 +68,11 @@ const UserComments = ({
     <div style={{paddingTop:'50'}}>
     <Grid container direction="row" spacing={2} alignItems="center">
         <Grid item>
-            <Avatar sx={{ bgcolor: deepOrange[500], width: 20, height: 20, fontSize: 8 }}>a</Avatar>
+            <Avatar src={userInfo == null? '':userInfo.picture} sx={{ bgcolor: deepOrange[500], width: 20, height: 20, fontSize: 8 }}></Avatar>
         </Grid>
         <Grid item>
             <Typography sx={{ fontSize: 8 }} color="text.secondary" gutterBottom>
-                ak2121
+            {userInfo == null? '' : userInfo.name}
             </Typography>
         </Grid>
         <Grid item>

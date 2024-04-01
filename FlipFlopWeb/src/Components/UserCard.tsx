@@ -9,10 +9,12 @@ import Typography from '@mui/material/Typography';
 import Avatar from '@mui/material/Avatar';
 import { Grid } from "@mui/material";
 import { deepOrange } from '@mui/material/colors';
+import { useUser } from "../hooks/useUser";
 
 const UserCard: FC<UserCardDetails> = ({index, userName, title, teamOne, teamTwo, context, link}) =>
 {
     const [selectedTeam, setSelectedTeam] = useState<number>(0);
+    const [userInfo, setUserInfo] = useUser();
 
     const handleTeamColor = (team:number) =>
     {
@@ -74,9 +76,9 @@ const UserCard: FC<UserCardDetails> = ({index, userName, title, teamOne, teamTwo
     return(
         <Card key={index} sx={{ minWidth: 275 }}>
         <CardContent>
-            <Avatar sx={{ bgcolor: deepOrange[500] }}>{userName != null? 'A' : ''}</Avatar>
+            <Avatar src={userInfo == null? '':userInfo.picture} sx={{ bgcolor: deepOrange[500] }}>{userName != null? 'A' : ''}</Avatar>
             <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                Hardcoded
+                {userInfo == null? '' : userInfo.name}
             </Typography>
             <Typography variant="h5" component="div">
                 {title}
