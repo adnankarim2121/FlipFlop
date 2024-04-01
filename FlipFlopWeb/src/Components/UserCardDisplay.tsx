@@ -12,6 +12,7 @@ import { deepOrange } from '@mui/material/colors';
 import CommentParent from "./CommentParent";
 import { TbFlipFlops } from "react-icons/tb";
 import { TiFlowSwitch } from "react-icons/ti";
+import { useUser } from "../hooks/useUser";
 
 const UserCardDisplay: FC<UserCardDetails> = ({index, userName, title, teamOne, teamTwo, context, link}) =>
 {
@@ -19,6 +20,7 @@ const UserCardDisplay: FC<UserCardDetails> = ({index, userName, title, teamOne, 
     const [teamVote, setSelectedTeamVote] = useState<string>('');
     const [allComments, setShowAllComments] = useState<boolean>(false);
     const [isGreen, setIsGreen] = useState<boolean>(false);
+    const [userInfo, setUserInfo] = useUser();
 
     const renderLink = (link: string | undefined) => {
         console.log("my link", link)
@@ -108,9 +110,9 @@ const UserCardDisplay: FC<UserCardDetails> = ({index, userName, title, teamOne, 
         <Card key={index} sx={{ minWidth: 575, display: 'flex', flexDirection: 'column' }}>
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', position: 'relative' }}>
           <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative' }}>
-            <Avatar sx={{ bgcolor: deepOrange[500] }}>{userName != null ? 'A' : ''}</Avatar>
+            <Avatar  src={userInfo == null? '':userInfo.picture} sx={{ bgcolor: deepOrange[500] }}></Avatar>
             <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-              Hardcoded
+            {userInfo == null? '' : userInfo.name}
             </Typography>
             <Typography variant="h5" component="div">
               {title}

@@ -2,15 +2,18 @@ import { GoogleLogin } from '@react-oauth/google';
 import { useNavigate } from 'react-router-dom';
 import Header from './Header';
 import { jwtDecode } from "jwt-decode";
+import { useUser } from '../hooks/useUser';
 
 function LoginPage() {
     const navigate = useNavigate();
+    const [userInfo, setUserInfo] = useUser();
 
     const redirectToHomePage = (credential?: string) => {
         if (credential!=null)
         {
             const userInfoObject = jwtDecode(credential);
-            console.log(userInfoObject);    
+            console.log(userInfoObject);
+            setUserInfo(userInfoObject);    
             navigate(`/homePage`);                        
         }
     };
