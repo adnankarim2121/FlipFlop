@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useDebugValue, useEffect, useState } from "react";
 import UserComments from "./UserComments";
 import useNode from "../hooks/useNode";
 
@@ -29,6 +29,10 @@ const CommentParent = ({teamPlaceHolder, teamValue, teamVote, allComments}:
     setCommentsData(temp);
   };
 
+  useEffect(() =>
+  {
+    setCommentsData(comments)
+  }, [])
 
   return (
     <div className="App">
