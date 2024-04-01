@@ -5,15 +5,16 @@ import useNode from "../hooks/useNode";
 const comments = {
   id: 1,
   items: [],
+  teamValue: 0
 };
-const CommentParent = ({teamPlaceHolder}:
-    {teamPlaceHolder : string | undefined}) => {
+const CommentParent = ({teamPlaceHolder, teamValue}:
+    {teamPlaceHolder? : string, teamValue? : number}) => {
   const [commentsData, setCommentsData] = useState(comments);
 
   const { insertNode, editNode, deleteNode } = useNode();
 
   const handleInsertNode = (folderId:any, item:any) => {
-    const finalStructure = insertNode(commentsData, folderId, item);
+    const finalStructure = insertNode(commentsData, folderId, item, teamValue);
     setCommentsData(finalStructure);
   };
 
@@ -37,6 +38,7 @@ const CommentParent = ({teamPlaceHolder}:
         handleDeleteNode={handleDeleteNode}
         comment={commentsData}
         teamPlaceHolder={teamPlaceHolder || ''}
+        teamValue={teamValue}
       />
     </div>
   );

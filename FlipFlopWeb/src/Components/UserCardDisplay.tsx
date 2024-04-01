@@ -73,21 +73,21 @@ const UserCardDisplay: FC<UserCardDetails> = ({index, userName, title, teamOne, 
 
     const handleTeamPlaceHolder = () =>
     {
-        if (selectedTeam == 0)
+        if (selectedTeam == 4)
         {
             return (<></>)
         }
-        else if (selectedTeam == 1)
+        else if (selectedTeam == 5)
         {
-            return (<CommentParent teamPlaceHolder={teamOne}/>)
+            return (<CommentParent teamPlaceHolder={teamOne} teamValue={selectedTeam}/>)
         }
-        else if (selectedTeam == 2)
+        else if (selectedTeam == 6)
         {
-            return (<CommentParent teamPlaceHolder="Undecided"/>)
+            return (<CommentParent teamPlaceHolder="Undecided" teamValue={selectedTeam}/>)
         }
-        else if (selectedTeam == 3)
+        else if (selectedTeam == 7)
         {
-            return (<CommentParent teamPlaceHolder={teamTwo}/>)
+            return (<CommentParent teamPlaceHolder={teamTwo} teamValue={selectedTeam}/>)
         }
     }
     return(
@@ -110,19 +110,19 @@ const UserCardDisplay: FC<UserCardDetails> = ({index, userName, title, teamOne, 
                 <Grid container justifyContent="space-between">
                     <Button size="small"
                         style={{ color: selectedTeam === 1 ? 'green' : 'inherit' }}
-                        onClick={() => handleTeamColor(1)}
+                        onClick={() => handleTeamColor(5)}
                     >
                         {teamOne}
                     </Button>
                     <Button size="small"
                         style={{ color: selectedTeam === 2 ? 'green' : 'inherit' }}
-                        onClick={() => handleTeamColor(2)}
+                        onClick={() => handleTeamColor(6)}
                     >
                         Undecided
                     </Button>
                     <Button size="small"
                         style={{ color: selectedTeam === 3 ? 'green' : 'inherit' }}
-                        onClick={() => handleTeamColor(3)}
+                        onClick={() => handleTeamColor(7)}
                     >
                         {teamTwo}
                     </Button>

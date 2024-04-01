@@ -16,13 +16,15 @@ const UserComments = ({
   handleEditNode,
   handleDeleteNode,
   comment,
-  teamPlaceHolder
+  teamPlaceHolder,
+  teamValue
 }: {
     handleInsertNode: any,
     handleEditNode: any,
     handleDeleteNode: any,
     comment: any,
     teamPlaceHolder: string
+    teamValue?: number
   }) => {
   const [input, setInput] = useState("");
   const [editMode, setEditMode] = useState(false);
@@ -204,18 +206,19 @@ const UserComments = ({
           </div>
         )}
 
-        {comment?.items?.map((cmnt:any) => {
-          return (
-            <UserComments
-              key={cmnt.id}
-              handleInsertNode={handleInsertNode}
-              handleEditNode={handleEditNode}
-              handleDeleteNode={handleDeleteNode}
-              comment={cmnt}
-              teamPlaceHolder={teamPlaceHolder}
-            />
-          );
-        })}
+    {comment?.items?.filter((cmnt:any) => cmnt.teamValue === teamValue)?.map((filteredCmnt:any) => {
+        console.log("team val is", teamValue)
+    return (
+        <UserComments
+        key={filteredCmnt.id}
+        handleInsertNode={handleInsertNode}
+        handleEditNode={handleEditNode}
+        handleDeleteNode={handleDeleteNode}
+        comment={filteredCmnt}
+        teamPlaceHolder={teamPlaceHolder}
+        />
+    );
+    })}
       </div>
     </div>
   );
