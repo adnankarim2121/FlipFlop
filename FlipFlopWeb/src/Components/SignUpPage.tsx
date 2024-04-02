@@ -1,14 +1,12 @@
 import { GoogleLogin } from '@react-oauth/google';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import Header from './Header';
 import { JwtPayload, jwtDecode } from "jwt-decode";
 import { useUser } from '../hooks/useUser';
-import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { UserInfo } from '../hooks/useUser';
 
-function LoginPage() {
+function SignUpPage() {
     const navigate = useNavigate();
     const [userInfo, setUserInfo] = useUser();
 
@@ -17,40 +15,39 @@ function LoginPage() {
         {
             const userInfoObject = jwtDecode(credential);
             console.log(userInfoObject)
-            const loginResponse = await checkLoginExists(userInfoObject);
-            const loginExists = loginResponse.valid
-            if (loginExists)
+            const emailExists = await checkEmailExists(userInfoObject);
+            if (!emailExists)
             {
-                setUserInfo((prevUserInfo: UserInfo) => ({
-                    ...prevUserInfo,
-                    username: loginResponse.username
-                  }));  
-                navigate(`/homePage`);   
+                setUserInfo(userInfoObject);    
+                navigate(`/createUserName`);   
             }
             else
             {
-                toast("Account not found. Sign up instead!");
+                toast("Email already exists. Sign in instead!");
             }
                      
         }
     };
 
-    const checkLoginExists = async (userInfoObject: JwtPayload) => {
+    const checkEmailExists = async (userInfoObject: JwtPayload) => {
         try {
-            const response = await axios.post('http://localhost:8000/check-login/',  userInfoObject );
-            return response.data
+            const response = await axios.post('http://localhost:8000/check-email/',  userInfoObject );
+            return response.data.exists
         } catch (error) {
-            console.error('Error checking login:', error);
+            console.error('Error checking email:', error);
         }
     };
+
     return (
         <div style={{ position: 'relative', minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
             <div style={{ marginBottom: '20px', fontFamily: 'sans-serif' }}>
-                <h1>Sign in</h1>
+                <h1>Create an Account</h1>
             </div>
             <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center' }}>
                 <GoogleLogin
                     useOneTap = {true}
+                    context = 'signup'
+                    text = 'continue_with'
                     onSuccess={credentialResponse => {
                         const token = credentialResponse.credential;                 
                         redirectToHomePage(token);
@@ -61,7 +58,7 @@ function LoginPage() {
                 />
             </div>
             <div style={{ marginTop: '20px', fontFamily: 'sans-serif' }}>
-                <Link to="/signUp">Sign Up</Link>
+                <Link to="/">Sign in</Link>
             </div>
             <div style={{ position: 'fixed', top: '20px', left: '0%', zIndex: '1000' }}>
                 <Header />
@@ -70,4 +67,4 @@ function LoginPage() {
     );
 }
 
-export default LoginPage;
+export default SignUpPage;

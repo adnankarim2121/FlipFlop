@@ -1,9 +1,9 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 
-interface UserInfo {
+export interface UserInfo {
   // Add properties according to the structure of your userInfoObject
   [key: string]: any; // This allows any property with any value
-  // ...
+  username?: string
 }
 
 const UserContext = createContext<[UserInfo | null, (userInfo: UserInfo | null) => void]>([null, () => {}]);
@@ -22,4 +22,5 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   );
 };
 
-export const useUser = () => useContext(UserContext);
+export const useUser = (): [UserInfo | null, (userInfo: UserInfo | null) => void] => useContext(UserContext);
+

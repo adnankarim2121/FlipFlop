@@ -112,7 +112,7 @@ const UserCardDisplay: FC<UserCardDetails> = ({index, userName, title, teamOne, 
           <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative' }}>
             <Avatar  src={userInfo == null? '':userInfo.picture} sx={{ bgcolor: deepOrange[500] }}></Avatar>
             <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-            {userInfo == null? '' : userInfo.name}
+            {userInfo == null? '' : userInfo.username}
             </Typography>
             <Typography variant="h5" component="div">
               {title}
