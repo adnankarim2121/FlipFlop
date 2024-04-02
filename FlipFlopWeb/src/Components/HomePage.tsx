@@ -5,6 +5,7 @@ import { CommunityCardDetails } from "../Interfaces/CommunityCardDetails";
 import CommunityCard from "./CommunityCard";
 import NewCommunityCard from "./NewCommunityCard";
 import { useNavigate, useParams } from 'react-router-dom'; 
+import axios, { all } from "axios";
 
 function HomePage()
 {
@@ -16,10 +17,7 @@ function HomePage()
         navigate(`/community/${urlCommunity}`, { state: { title: title || '', description: description || '' } });
     };
     
-    const [newCommunities, setNewCommunities] = useState<CommunityCardDetails[]>(
-        [{index:0, title:'NBA', description:'All NBA Debates'},
-        {index:1, title:'Politics', description:'All Political Debates'},
-        {index:2, title:'UEFA CL', description:'All Champion Leagues Debate'}])
+    const [newCommunities, setNewCommunities] = useState<CommunityCardDetails[]>([])
     const [showNewCommunity, setShowNewCommunity] = useState<Boolean>(false);
 
     const handleAddIconClick = () => {
@@ -30,9 +28,21 @@ function HomePage()
         setShowNewCommunity(false);
     };
 
-      useEffect (()=>
-      {
-      }, [])
+    const getAllCommunities = async () => {
+        try {
+            const response = await axios.get('http://localhost:8000/get-all-communities/');
+            const allCommunities = response.data;
+            console.log(allCommunities)
+            setNewCommunities(allCommunities)
+        } catch (error) {
+            console.error('Error fetching all communities:', error);
+        }
+    };
+
+    useEffect (()=>
+    {
+        getAllCommunities()
+    }, [])
 
       return (
         <div style={{ position: 'relative', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>

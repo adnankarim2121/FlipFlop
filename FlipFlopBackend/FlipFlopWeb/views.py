@@ -1,7 +1,11 @@
 from django.http import JsonResponse
-from .models import Googleusers
+from .models import Googleusers, Communities
 from django.views.decorators.csrf import csrf_exempt
 import json
+import logging
+from django.core.serializers import serialize
+
+logger = logging.getLogger(__name__)
 
 @csrf_exempt
 def check_email_exists(request):
@@ -49,9 +53,6 @@ def check_login(request):
     # Handle other HTTP methods or invalid requests
     return JsonResponse({'error': 'Invalid request method'}, status=400)
 
-
-    return JsonResponse({'error': 'Invalid request method'}, status=400)
-
 @csrf_exempt
 def check_username_exists(request):
     if request.method == 'POST':
@@ -75,3 +76,15 @@ def check_username_exists(request):
             return JsonResponse({'exists': username_exists}, status=400)
 
     return JsonResponse({'error': 'Invalid request method'}, status=400)
+
+@csrf_exempt
+def get_all_communities(request):
+    if request.method == 'GET':
+        communities = Communities.objects.all().values('data')
+        dataToAdjust = list(communities)
+        allCommunities = [item['data'] for item in dataToAdjust]
+        return JsonResponse(allCommunities, safe=False)
+    else:
+        return JsonResponse({'error': 'Invalid request method'}, status=400)
+
+
