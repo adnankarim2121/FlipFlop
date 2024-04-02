@@ -1,5 +1,5 @@
 from django.http import JsonResponse
-from .models import Googleusers, Communities
+from .models import Googleusers, Communities, Questions
 from django.views.decorators.csrf import csrf_exempt
 import json
 import logging
@@ -94,12 +94,38 @@ def add_new_community(request):
         community = data.get('details')
         
         # Get the next auto-incrementing id from the Communities table
-        next_id = Communities.objects.order_by('-id').first().id + 1
+        if Communities.objects.count() == 0:
+            next_id = 0
+        else:
+            next_id = Communities.objects.order_by('-id').first().id + 1
 
         # Include the id in the details
         community['index'] = next_id
 
         newCommunity = Communities(data=community)
         newCommunity.save()
+        return JsonResponse({'valid': True})
+    return JsonResponse({'valid': False})
+
+@csrf_exempt
+def get_all_questions(request, communityIndex):
+    if request.method == 'GET':
+        questions = Questions.objects.filter(index=communityIndex).values('data')
+        dataToAdjust = list(questions)
+        allQuestions = [item['data'] for item in dataToAdjust]
+        return JsonResponse(allQuestions, safe=False)
+    else:
+        return JsonResponse({'error': 'Invalid request method'}, status=400)
+
+@csrf_exempt
+def add_new_question(request):
+    if request.method == 'POST':
+        data = json.loads(request.body.decode('utf-8'))
+        print(data)
+        question = data.get('details')
+        index = data.get('communityIndex')
+        print("my index", index)
+        newQuestion = Questions(index=index, data=question)
+        newQuestion.save()
         return JsonResponse({'valid': True})
     return JsonResponse({'valid': False})

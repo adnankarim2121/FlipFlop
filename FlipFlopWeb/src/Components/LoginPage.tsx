@@ -21,6 +21,7 @@ function LoginPage() {
             const loginExists = loginResponse.valid
             if (loginExists)
             {
+                setUserInfo(userInfoObject)
                 setUserInfo((prevUserInfo: UserInfo) => ({
                     ...prevUserInfo,
                     username: loginResponse.username

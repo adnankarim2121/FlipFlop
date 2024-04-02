@@ -6,11 +6,12 @@ import NewCard from './NewCard';
 import AddButton from './AddButton';
 import Header from "./Header";
 import { Typography } from "@mui/material";
+import axios from "axios";
 
 function CommunityHomePage()
 {
     const navigate = useNavigate();
-    var { urlQuestion } = useParams();
+    var { urlQuestion} = useParams();
 
     const redirectToQuestionHomePage = (title: string | undefined, teamOne: string | undefined, teamTwo:string | undefined, context:string | undefined, userName:string | undefined, link:string | undefined) => {
         urlQuestion = title?.replace(/\s/g, "")
@@ -23,7 +24,7 @@ function CommunityHomePage()
     };
     
     const location = useLocation();
-    const { title, description } = location.state;
+    const { title, description, communityIndex } = location.state;
     const [newCards, setNewCards] = useState<UserCardDetails[]>([])
     const [showNewCard, setShowNewCard] = useState<Boolean>(false);
 
@@ -31,15 +32,43 @@ function CommunityHomePage()
         setShowNewCard(true);
     };
 
-    const handleNewCardSubmit = (details: UserCardDetails) => {
-        setNewCards([...newCards, details]);
+    const handleNewCardSubmit = async (details: UserCardDetails) => {
+        const valid = await addNewQuestion(details)
+        if (valid)
+        {
+            setNewCards([...newCards, details]);
+        }
         setShowNewCard(false);
     };
 
 
+    const getAllQuestions = async () => {
+        try {
+            const response = await axios.get(`http://localhost:8000/get-all-questions/${communityIndex}`, communityIndex);
+            const allQuestions = response.data;
+            console.log("all questions", allQuestions)
+            console.log(allQuestions)
+            setNewCards(allQuestions)
+        } catch (error) {
+            console.error('Error fetching all questions:', error);
+        }
+    };
+
+    const addNewQuestion = async (details: UserCardDetails) =>
+    {
+        try {
+            console.log("my com index", communityIndex)
+            const response = await axios.post('http://localhost:8000/add-new-question/', {details, communityIndex});
+            return response.data.valid
+        }
+        catch (error) 
+        {
+            console.error('Error adding community:', error);
+        }
+    }
       useEffect (()=>
       {
-        //For later, we'll populate UserCards from our db from the selected commmunity.
+        getAllQuestions()
       }, [])
 
       return (
