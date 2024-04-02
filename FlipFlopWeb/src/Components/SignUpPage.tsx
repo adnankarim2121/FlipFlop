@@ -19,7 +19,7 @@ function SignUpPage() {
             if (!emailExists)
             {
                 setUserInfo(userInfoObject);    
-                navigate(`/homePage`);   
+                navigate(`/createUserName`);   
             }
             else
             {

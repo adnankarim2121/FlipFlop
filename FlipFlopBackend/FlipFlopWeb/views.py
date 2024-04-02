@@ -1,6 +1,5 @@
 from django.http import JsonResponse
 from .models import Googleusers
-from django.contrib.auth.hashers import make_password
 from django.views.decorators.csrf import csrf_exempt
 import json
 
@@ -37,5 +36,29 @@ def check_login(request):
             return JsonResponse({'valid': True})
         else:
             return JsonResponse({'valid': False})
+
+    return JsonResponse({'error': 'Invalid request method'}, status=400)
+
+@csrf_exempt
+def check_username_exists(request):
+    if request.method == 'POST':
+        data = json.loads(request.body.decode('utf-8'))
+        username = data.get('username')
+        email = data.get('email')
+
+        # Check if the username is already used
+        username_exists = Googleusers.objects.filter(username=username).exists()
+        if not username_exists:
+            # Update the username for the corresponding email
+            user = Googleusers.objects.filter(email=email).first()
+            if user:
+                user.username = username
+                user.save()
+                return JsonResponse({'exists': username_exists})
+            else:
+                #Probably not needed, since email will have to exist.
+                return JsonResponse({'error': 'Email does not exist'}, status=400)
+        else:
+            return JsonResponse({'exists': username_exists}, status=400)
 
     return JsonResponse({'error': 'Invalid request method'}, status=400)
