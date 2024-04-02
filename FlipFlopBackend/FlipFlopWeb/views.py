@@ -33,9 +33,22 @@ def check_login(request):
         # Check if the email exists in the googleUsers table
         user_exists = Googleusers.objects.filter(email=email).exists()
         if user_exists:
-            return JsonResponse({'valid': True})
+            # Get the user's username
+            user = Googleusers.objects.get(email=email)
+            username = user.username  # Assuming username is a field in Googleusers
+
+            # Return email, username, and existence status
+            response_data = {
+                'username': username,
+                'valid': user_exists
+            }
+            return JsonResponse(response_data)
         else:
-            return JsonResponse({'valid': False})
+            return JsonResponse({'username': None,'valid': False})
+
+    # Handle other HTTP methods or invalid requests
+    return JsonResponse({'error': 'Invalid request method'}, status=400)
+
 
     return JsonResponse({'error': 'Invalid request method'}, status=400)
 

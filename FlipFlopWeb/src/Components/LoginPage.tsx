@@ -6,6 +6,7 @@ import { useUser } from '../hooks/useUser';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { UserInfo } from '../hooks/useUser';
 
 function LoginPage() {
     const navigate = useNavigate();
@@ -16,10 +17,14 @@ function LoginPage() {
         {
             const userInfoObject = jwtDecode(credential);
             console.log(userInfoObject)
-            const loginExists = await checkLoginExists(userInfoObject);
+            const loginResponse = await checkLoginExists(userInfoObject);
+            const loginExists = loginResponse.valid
             if (loginExists)
             {
-                setUserInfo(userInfoObject);    
+                setUserInfo((prevUserInfo: UserInfo) => ({
+                    ...prevUserInfo,
+                    username: loginResponse.username
+                  }));  
                 navigate(`/homePage`);   
             }
             else
@@ -33,7 +38,7 @@ function LoginPage() {
     const checkLoginExists = async (userInfoObject: JwtPayload) => {
         try {
             const response = await axios.post('http://localhost:8000/check-login/',  userInfoObject );
-            return response.data.valid
+            return response.data
         } catch (error) {
             console.error('Error checking login:', error);
         }
