@@ -1,5 +1,6 @@
 # Create your models here.
 from django.db import models
+import json
 
 class User(models.Model):
     email = models.EmailField(unique=True)
@@ -19,3 +20,10 @@ class Googleusers(models.Model):
     class Meta:
         managed = False
         db_table = 'googleUsers'
+
+
+class Communities(models.Model):
+    data = models.JSONField()
+    class Meta:
+        managed = False
+        db_table = 'communities'

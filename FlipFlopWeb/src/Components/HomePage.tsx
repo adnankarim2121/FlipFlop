@@ -5,6 +5,7 @@ import { CommunityCardDetails } from "../Interfaces/CommunityCardDetails";
 import CommunityCard from "./CommunityCard";
 import NewCommunityCard from "./NewCommunityCard";
 import { useNavigate, useParams } from 'react-router-dom'; 
+import axios, { all } from "axios";
 
 function HomePage()
 {
@@ -16,23 +17,48 @@ function HomePage()
         navigate(`/community/${urlCommunity}`, { state: { title: title || '', description: description || '' } });
     };
     
-    const [newCommunities, setNewCommunities] = useState<CommunityCardDetails[]>(
-        [{index:0, title:'NBA', description:'All NBA Debates'},
-        {index:1, title:'Politics', description:'All Political Debates'},
-        {index:2, title:'UEFA CL', description:'All Champion Leagues Debate'}])
+    const [newCommunities, setNewCommunities] = useState<CommunityCardDetails[]>([])
     const [showNewCommunity, setShowNewCommunity] = useState<Boolean>(false);
 
     const handleAddIconClick = () => {
         setShowNewCommunity(true);
     };
-    const handleNewCommunityCardSubmit = (details: CommunityCardDetails) => {
-        setNewCommunities([...newCommunities, details]);
+    const handleNewCommunityCardSubmit = async (details: CommunityCardDetails) => {
+        const valid = await addNewCommunity(details)
+        if (valid)
+        {
+            setNewCommunities([...newCommunities, details]);
+        }
         setShowNewCommunity(false);
     };
 
-      useEffect (()=>
-      {
-      }, [])
+    const getAllCommunities = async () => {
+        try {
+            const response = await axios.get('http://localhost:8000/get-all-communities/');
+            const allCommunities = response.data;
+            console.log(allCommunities)
+            setNewCommunities(allCommunities)
+        } catch (error) {
+            console.error('Error fetching all communities:', error);
+        }
+    };
+
+    const addNewCommunity = async (details: CommunityCardDetails) =>
+    {
+        try {
+            const response = await axios.post('http://localhost:8000/add-new-community/', {details});
+            return response.data.valid
+        }
+        catch (error) 
+        {
+            console.error('Error adding community:', error);
+        }
+    }
+
+    useEffect (()=>
+    {
+        getAllCommunities()
+    }, [])
 
       return (
         <div style={{ position: 'relative', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -44,6 +70,7 @@ function HomePage()
                         }}
                         key={communityCard.index}>
                         <CommunityCard 
+                            index={communityCard.index}
                             title={communityCard.title} 
                             description={communityCard.description}
                         />
