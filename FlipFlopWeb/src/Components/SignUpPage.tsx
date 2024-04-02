@@ -1,20 +1,40 @@
 import { GoogleLogin } from '@react-oauth/google';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import Header from './Header';
-import { jwtDecode } from "jwt-decode";
+import { JwtPayload, jwtDecode } from "jwt-decode";
 import { useUser } from '../hooks/useUser';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 function SignUpPage() {
     const navigate = useNavigate();
     const [userInfo, setUserInfo] = useUser();
 
-    const redirectToHomePage = (credential?: string) => {
+    const redirectToHomePage = async (credential?: string) => {
         if (credential!=null)
         {
             const userInfoObject = jwtDecode(credential);
-            console.log(userInfoObject);
-            setUserInfo(userInfoObject);    
-            navigate(`/homePage`);                        
+            console.log(userInfoObject)
+            const emailExists = await checkEmailExists(userInfoObject);
+            if (!emailExists)
+            {
+                setUserInfo(userInfoObject);    
+                navigate(`/homePage`);   
+            }
+            else
+            {
+                toast("Email already exists. Sign in instead!");
+            }
+                     
+        }
+    };
+
+    const checkEmailExists = async (userInfoObject: JwtPayload) => {
+        try {
+            const response = await axios.post('http://localhost:8000/check-email/',  userInfoObject );
+            return response.data.exists
+        } catch (error) {
+            console.error('Error checking email:', error);
         }
     };
 
@@ -36,6 +56,9 @@ function SignUpPage() {
                         console.log('Login Failed');
                     }}
                 />
+            </div>
+            <div style={{ marginTop: '20px', fontFamily: 'sans-serif' }}>
+                <Link to="/">Sign in</Link>
             </div>
             <div style={{ position: 'fixed', top: '20px', left: '0%', zIndex: '1000' }}>
                 <Header />
