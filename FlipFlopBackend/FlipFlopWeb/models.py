@@ -27,3 +27,10 @@ class Communities(models.Model):
     class Meta:
         managed = False
         db_table = 'communities'
+
+class Questions(models.Model):
+    data = models.JSONField()
+    index = models.IntegerField()
+    class Meta:
+        managed = False
+        db_table = 'questions'

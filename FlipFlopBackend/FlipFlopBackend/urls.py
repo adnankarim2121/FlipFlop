@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from FlipFlopWeb.views import check_email_exists, check_login, check_username_exists, get_all_communities, add_new_community
+from FlipFlopWeb.views import check_email_exists, check_login, check_username_exists, get_all_communities, add_new_community, get_all_questions, add_new_question
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -24,5 +24,7 @@ urlpatterns = [
     path('check-login/', check_login, name='check_login'),
     path('check-username-exists/', check_username_exists, name='check_username_exists'),
     path('get-all-communities/', get_all_communities, name='get_all_communities'),
-    path('add-new-community/', add_new_community, name='add_new_community')
+    path('add-new-community/', add_new_community, name='add_new_community'),
+    path('get-all-questions/<int:communityIndex>/', get_all_questions, name='get_all_questions'),
+    path('add-new-question/', add_new_question, name='add_new_question')
 ]

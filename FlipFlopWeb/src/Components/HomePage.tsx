@@ -12,9 +12,10 @@ function HomePage()
     const navigate = useNavigate();
     var { urlCommunity } = useParams();
 
-    const redirectToCommunityHomePage = (title: string | undefined, description: string | undefined) => {
+    const redirectToCommunityHomePage = (title: string | undefined, description: string | undefined, communityIndex: number | undefined) => {
+        console.log("my index is:", communityIndex)
         urlCommunity = title?.replace(/\s/g, "")
-        navigate(`/community/${urlCommunity}`, { state: { title: title || '', description: description || '' } });
+        navigate(`/community/${urlCommunity}`, { state: { title: title || '', description: description || '', communityIndex: communityIndex } });
     };
     
     const [newCommunities, setNewCommunities] = useState<CommunityCardDetails[]>([])
@@ -66,7 +67,7 @@ function HomePage()
                 {newCommunities.map((communityCard) => (
                     <div style={{ marginRight: '50px' }} 
                         onClick={() => {
-                            redirectToCommunityHomePage(communityCard.title, communityCard.description);
+                            redirectToCommunityHomePage(communityCard.title, communityCard.description, communityCard.index);
                         }}
                         key={communityCard.index}>
                         <CommunityCard 
