@@ -87,4 +87,19 @@ def get_all_communities(request):
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=400)
 
+@csrf_exempt
+def add_new_community(request):
+    if request.method == 'POST':
+        data = json.loads(request.body.decode('utf-8'))
+        community = data.get('details')
+        
+        # Get the next auto-incrementing id from the Communities table
+        next_id = Communities.objects.order_by('-id').first().id + 1
 
+        # Include the id in the details
+        community['index'] = next_id
+
+        newCommunity = Communities(data=community)
+        newCommunity.save()
+        return JsonResponse({'valid': True})
+    return JsonResponse({'valid': False})

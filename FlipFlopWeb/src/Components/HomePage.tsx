@@ -23,8 +23,12 @@ function HomePage()
     const handleAddIconClick = () => {
         setShowNewCommunity(true);
     };
-    const handleNewCommunityCardSubmit = (details: CommunityCardDetails) => {
-        setNewCommunities([...newCommunities, details]);
+    const handleNewCommunityCardSubmit = async (details: CommunityCardDetails) => {
+        const valid = await addNewCommunity(details)
+        if (valid)
+        {
+            setNewCommunities([...newCommunities, details]);
+        }
         setShowNewCommunity(false);
     };
 
@@ -38,6 +42,18 @@ function HomePage()
             console.error('Error fetching all communities:', error);
         }
     };
+
+    const addNewCommunity = async (details: CommunityCardDetails) =>
+    {
+        try {
+            const response = await axios.post('http://localhost:8000/add-new-community/', {details});
+            return response.data.valid
+        }
+        catch (error) 
+        {
+            console.error('Error adding community:', error);
+        }
+    }
 
     useEffect (()=>
     {
@@ -54,6 +70,7 @@ function HomePage()
                         }}
                         key={communityCard.index}>
                         <CommunityCard 
+                            index={communityCard.index}
                             title={communityCard.title} 
                             description={communityCard.description}
                         />
