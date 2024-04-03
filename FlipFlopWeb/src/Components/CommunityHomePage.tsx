@@ -61,6 +61,7 @@ function CommunityHomePage()
         if (userInfo)
         {
             details.profilePic = userInfo.picture
+            details.userName = userInfo.username
         }
         try {
             const response = await axios.post('http://localhost:8000/add-new-question/', {details, communityIndex});
