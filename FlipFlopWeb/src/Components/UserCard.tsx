@@ -77,7 +77,7 @@ const UserCard: FC<UserCardDetails> = ({index, userName, title, teamOne, teamTwo
         <CardContent>
             <Avatar src={profilePic} sx={{ bgcolor: deepOrange[500] }}>{userName != null? 'A' : ''}</Avatar>
             <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                {userInfo == null? '' : userInfo.username}
+                {userName}
             </Typography>
             <Typography variant="h5" component="div">
                 {title}
