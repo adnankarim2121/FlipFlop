@@ -6,12 +6,11 @@ import UserCardDisplay from "./UserCardDisplay";
 function QuestionHomePage()
 {
     const location = useLocation();
-    const { title, teamOne, teamTwo, context, userName, link } = location.state;
+    const { title, teamOne, teamTwo, context, userName, link, profilePic } = location.state;
 
       useEffect (()=>
       {
         //For later, we'll populate existing question with previous user data
-        console.log("in question comp")
       }, [])
 
       return (
@@ -21,6 +20,7 @@ function QuestionHomePage()
                         <UserCardDisplay 
                         key={0} 
                         userName={userName} 
+                        profilePic={profilePic}
                         title={title} 
                         context={context}
                         teamOne={teamOne} 

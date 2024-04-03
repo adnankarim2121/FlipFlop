@@ -11,7 +11,7 @@ import { Grid } from "@mui/material";
 import { deepOrange } from '@mui/material/colors';
 import { useUser } from "../hooks/useUser";
 
-const UserCard: FC<UserCardDetails> = ({index, userName, title, teamOne, teamTwo, context, link}) =>
+const UserCard: FC<UserCardDetails> = ({index, userName, title, teamOne, teamTwo, context, link, profilePic}) =>
 {
     const [selectedTeam, setSelectedTeam] = useState<number>(0);
     const [userInfo, setUserInfo] = useUser();
@@ -22,7 +22,6 @@ const UserCard: FC<UserCardDetails> = ({index, userName, title, teamOne, teamTwo
     }
 
     const renderLink = (link: string | undefined) => {
-        console.log("my link", link)
         if (link != undefined)
         {
             if (link.endsWith('.mp4') || link.endsWith('.webm')) {
@@ -76,7 +75,7 @@ const UserCard: FC<UserCardDetails> = ({index, userName, title, teamOne, teamTwo
     return(
         <Card key={index} sx={{ minWidth: 275 }}>
         <CardContent>
-            <Avatar src={userInfo == null? '':userInfo.picture} sx={{ bgcolor: deepOrange[500] }}>{userName != null? 'A' : ''}</Avatar>
+            <Avatar src={profilePic} sx={{ bgcolor: deepOrange[500] }}>{userName != null? 'A' : ''}</Avatar>
             <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                 {userInfo == null? '' : userInfo.username}
             </Typography>

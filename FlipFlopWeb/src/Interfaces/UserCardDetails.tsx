@@ -7,4 +7,5 @@ export interface UserCardDetails
     teamTwo?: string
     context?: string
     link?: string
+    profilePic?: string
 }
