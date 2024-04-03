@@ -14,7 +14,7 @@ import { TbFlipFlops } from "react-icons/tb";
 import { TiFlowSwitch } from "react-icons/ti";
 import { useUser } from "../hooks/useUser";
 
-const UserCardDisplay: FC<UserCardDetails> = ({index, userName, title, teamOne, teamTwo, context, link}) =>
+const UserCardDisplay: FC<UserCardDetails> = ({index, userName, title, teamOne, teamTwo, context, link, profilePic}) =>
 {
     const [selectedTeam, setSelectedTeam] = useState<number>(0);
     const [teamVote, setSelectedTeamVote] = useState<string>('');
@@ -23,7 +23,6 @@ const UserCardDisplay: FC<UserCardDetails> = ({index, userName, title, teamOne, 
     const [userInfo, setUserInfo] = useUser();
 
     const renderLink = (link: string | undefined) => {
-        console.log("my link", link)
         if (link != undefined)
         {
             if (link.endsWith('.mp4') || link.endsWith('.webm')) {
@@ -110,7 +109,7 @@ const UserCardDisplay: FC<UserCardDetails> = ({index, userName, title, teamOne, 
         <Card key={index} sx={{ minWidth: 575, display: 'flex', flexDirection: 'column' }}>
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', position: 'relative' }}>
           <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative' }}>
-            <Avatar  src={userInfo == null? '':userInfo.picture} sx={{ bgcolor: deepOrange[500] }}></Avatar>
+            <Avatar  src={profilePic} sx={{ bgcolor: deepOrange[500] }}></Avatar>
             <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
             {userInfo == null? '' : userInfo.username}
             </Typography>

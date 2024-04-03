@@ -16,7 +16,6 @@ function LoginPage() {
         if (credential!=null)
         {
             const userInfoObject = jwtDecode(credential);
-            console.log(userInfoObject)
             const loginResponse = await checkLoginExists(userInfoObject);
             const loginExists = loginResponse.valid
             if (loginExists)

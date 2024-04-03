@@ -14,7 +14,6 @@ function SignUpPage() {
         if (credential!=null)
         {
             const userInfoObject = jwtDecode(credential);
-            console.log(userInfoObject)
             const emailExists = await checkEmailExists(userInfoObject);
             if (!emailExists)
             {
@@ -53,7 +52,7 @@ function SignUpPage() {
                         redirectToHomePage(token);
                     }}
                     onError={() => {
-                        console.log('Login Failed');
+                        console.log('Signup Failed');
                     }}
                 />
             </div>

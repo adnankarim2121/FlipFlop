@@ -5,7 +5,7 @@ import { CommunityCardDetails } from "../Interfaces/CommunityCardDetails";
 import CommunityCard from "./CommunityCard";
 import NewCommunityCard from "./NewCommunityCard";
 import { useNavigate, useParams } from 'react-router-dom'; 
-import axios, { all } from "axios";
+import axios from "axios";
 
 function HomePage()
 {
@@ -13,13 +13,14 @@ function HomePage()
     var { urlCommunity } = useParams();
 
     const redirectToCommunityHomePage = (title: string | undefined, description: string | undefined, communityIndex: number | undefined) => {
-        console.log("my index is:", communityIndex)
         urlCommunity = title?.replace(/\s/g, "")
         navigate(`/community/${urlCommunity}`, { state: { title: title || '', description: description || '', communityIndex: communityIndex } });
     };
     
     const [newCommunities, setNewCommunities] = useState<CommunityCardDetails[]>([])
     const [showNewCommunity, setShowNewCommunity] = useState<Boolean>(false);
+    const [searchQuery, setSearchQuery] = useState<string>('');
+
 
     const handleAddIconClick = () => {
         setShowNewCommunity(true);
@@ -37,7 +38,6 @@ function HomePage()
         try {
             const response = await axios.get('http://localhost:8000/get-all-communities/');
             const allCommunities = response.data;
-            console.log(allCommunities)
             setNewCommunities(allCommunities)
         } catch (error) {
             console.error('Error fetching all communities:', error);
@@ -64,19 +64,31 @@ function HomePage()
       return (
         <div style={{ position: 'relative', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', overflowX: 'auto', whiteSpace: 'nowrap' }}>
-                {newCommunities.map((communityCard) => (
-                    <div style={{ marginRight: '50px' }} 
-                        onClick={() => {
-                            redirectToCommunityHomePage(communityCard.title, communityCard.description, communityCard.index);
-                        }}
-                        key={communityCard.index}>
-                        <CommunityCard 
-                            index={communityCard.index}
-                            title={communityCard.title} 
-                            description={communityCard.description}
-                        />
-                    </div>
-                ))}
+            {newCommunities
+  .filter((communityCard:any)=>
+    communityCard.title.toLowerCase().includes(searchQuery.toLowerCase())
+  )
+  .map(communityCard => (
+    <div
+      style={{ marginRight: '50px' }}
+      onClick={() => {
+        redirectToCommunityHomePage(
+          communityCard.title,
+          communityCard.description,
+          communityCard.index
+        );
+      }}
+      key={communityCard.index}
+    >
+      <CommunityCard
+        index={communityCard.index}
+        title={communityCard.title}
+        description={communityCard.description}
+      />
+    </div>
+  ))}
+
+
             </div>
     
             {showNewCommunity && (
@@ -90,6 +102,15 @@ function HomePage()
             <div style={{ position: 'fixed', top: '20px', left: '20px', zIndex: '1000' }}>
                 <Header/>
             </div>
+            <div style={{ position: 'fixed', top: '20px', left: '500px', zIndex: '1000' }}>
+                <input
+                    type="text"
+                    placeholder="Search by community"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    style={{ width: '300px', padding: '5px' }}
+                />
+                </div>
         </div>
     );
     
