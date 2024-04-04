@@ -132,15 +132,15 @@ const UserCardDisplay: FC<UserCardDetails> = ({index, userName, title, teamOne, 
         }
         else if (selectedTeam == 5)
         {
-            return (<CommentParent teamPlaceHolder={teamOne} teamValue={selectedTeam} teamVote = {teamVote} allComments = {allComments}/>)
+            return (<CommentParent teamPlaceHolder={teamOne} teamValue={selectedTeam} teamVote = {teamVote} allComments = {allComments} profilePicture={userInfo?.picture} username={userInfo?.username}/>)
         }
         else if (selectedTeam == 6)
         {
-            return (<CommentParent teamPlaceHolder="🤔" teamValue={selectedTeam} teamVote = {teamVote} allComments = {allComments}/>)
+            return (<CommentParent teamPlaceHolder="🤔" teamValue={selectedTeam} teamVote = {teamVote} allComments = {allComments} profilePicture={userInfo?.picture} username={userInfo?.username}/>)
         }
         else if (selectedTeam == 7)
         {
-            return (<CommentParent teamPlaceHolder={teamTwo} teamValue={selectedTeam} teamVote = {teamVote} allComments = {allComments}/>)
+            return (<CommentParent teamPlaceHolder={teamTwo} teamValue={selectedTeam} teamVote = {teamVote} allComments = {allComments} profilePicture={userInfo?.picture} username={userInfo?.username}/>)
         }
     }
 

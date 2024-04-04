@@ -20,7 +20,9 @@ const UserComments = ({
   teamPlaceHolder,
   teamValue,
   teamVote,
-  allComments
+  allComments,
+  username,
+  profilePic
 }: {
     handleInsertNode: any,
     handleEditNode: any,
@@ -29,7 +31,9 @@ const UserComments = ({
     teamPlaceHolder: string,
     teamValue?: number,
     teamVote?: string,
-    allComments?: boolean
+    allComments?: boolean,
+    username?:string,
+    profilePic?:string
   }) => {
   const [input, setInput] = useState("");
   const [editMode, setEditMode] = useState(false);
@@ -51,8 +55,9 @@ const UserComments = ({
     if (editMode) {
       handleEditNode(comment.id, inputRef?.current?.innerText);
     } else {
+      console.log('replying comment in add', userInfo?.picture, userInfo?.username)
       setExpand(true);
-      handleInsertNode(comment.id, input, teamValue);
+      handleInsertNode(comment.id, input, teamValue, userInfo?.picture, userInfo?.username);
       setShowInput(false);
       setInput("");
     }
@@ -72,7 +77,7 @@ const UserComments = ({
         </Grid>
         <Grid item>
             <Typography sx={{ fontSize: 8 }} color="text.secondary" gutterBottom>
-            {userInfo == null? '' : userInfo.name}
+            {userInfo == null? '' : userInfo.username}
             </Typography>
         </Grid>
         <Grid item>
