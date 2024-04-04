@@ -9,7 +9,7 @@ const CommunityCard: FC<CommunityCardDetails> = ({index, title, description}) =>
 {
     return(
         <Card key={index} sx={{ minWidth: 275 }}>
-        <CardContent>
+        <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative' }}>
             <Typography variant="h5" component="div">
                 {title}
             </Typography>
