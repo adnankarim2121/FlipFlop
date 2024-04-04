@@ -27,10 +27,12 @@ function CommunityHomePage()
     };
     
     const location = useLocation();
-    const { title, description, communityIndex } = location.state;
     const [newCards, setNewCards] = useState<UserCardDetails[]>([])
     const [showNewCard, setShowNewCard] = useState<Boolean>(false);
     const [searchQuery, setSearchQuery] = useState<string>('');
+    const [title, setTitle] = useState<string>('');
+    const [description, setDescription] = useState<string>('');
+    const [communityIndex, setCommunityIndex] = useState<any>(0);
 
     const handleAddIconClick = () => {
         setShowNewCard(true);
@@ -76,6 +78,15 @@ function CommunityHomePage()
       {
         getAllQuestions()
       }, [])
+
+      useEffect(() => {
+        if (location.state) {
+          const { title: newTitle, description: newDescription, communityIndex: newCommunityIndex } = location.state;
+          setTitle(newTitle || '');
+          setDescription(newDescription || '');
+          setCommunityIndex(newCommunityIndex || 0);
+        }
+      }, [location.state]);
 
       return (
     <div style={{ position: 'relative', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>

@@ -12,7 +12,7 @@ function HomePage()
     const navigate = useNavigate();
     var { urlCommunity } = useParams();
 
-    const redirectToCommunityHomePage = (title: string | undefined, description: string | undefined, communityIndex: number | undefined) => {
+    const redirectToCommunityHomePage = (title: string | undefined, description: string | undefined, communityIndex: number) => {
         urlCommunity = title?.replace(/\s/g, "")
         navigate(`/community/${urlCommunity}`, { state: { title: title || '', description: description || '', communityIndex: communityIndex } });
     };

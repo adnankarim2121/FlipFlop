@@ -13,14 +13,21 @@ import CommentParent from "./CommentParent";
 import { TbFlipFlops } from "react-icons/tb";
 import { TiFlowSwitch } from "react-icons/ti";
 import { useUser } from "../hooks/useUser";
+import { FaRegComments } from "react-icons/fa";
+import UserTeamTimeline from "./UserTeamTimeline";
+import { UserTeamTimelineProps } from "../Interfaces/UserTeamTimelineProps";
+import { toast } from "react-toastify";
+
 
 const UserCardDisplay: FC<UserCardDetails> = ({index, userName, title, teamOne, teamTwo, context, link, profilePic}) =>
 {
     const [selectedTeam, setSelectedTeam] = useState<number>(0);
     const [teamVote, setSelectedTeamVote] = useState<string>('');
+    const [teamTimeLine, setSelectedTeamTimeline] = useState<UserTeamTimelineProps[]>([{time:'Start', team:'🤔'}]);
     const [allComments, setShowAllComments] = useState<boolean>(false);
     const [isGreen, setIsGreen] = useState<boolean>(false);
     const [userInfo, setUserInfo] = useUser();
+    const [showTimeline, setShowTimeline] = useState(false);
 
     const renderLink = (link: string | undefined) => {
         if (link != undefined)
@@ -82,7 +89,39 @@ const UserCardDisplay: FC<UserCardDetails> = ({index, userName, title, teamOne, 
         if (team != null)
         {
             setSelectedTeamVote(team)
+            handleTeamTimelineAdd(team)
         }
+    }
+
+    const handleTeamTimelineAdd = (team?: string) =>
+    {
+      if (userInfo?.username != userName)
+      {
+        return false
+      } 
+      if (team != null)
+      {
+          if (team != teamTimeLine[teamTimeLine.length -1].team)
+          {
+            toast(`Switched team to: ${team}`)
+            const currentDate = new Date();
+
+            // Format the date as Month, Day, Year
+            const formattedDate = `${currentDate.toLocaleString('default', { month: 'short' })} ${currentDate.getDate()}, ${currentDate.getFullYear()}`;
+
+            // Format the time as HH:MM
+            const formattedTime = currentDate.toLocaleTimeString('en-US', {
+              hour: 'numeric',
+              minute: '2-digit',
+              hour12: true,
+            });
+
+            // Combine the formatted date and time
+            const formattedDateTime = `${formattedDate}` + ` ${formattedTime}`;
+            const timelineValue = {time: formattedDateTime, team:team}
+            setSelectedTeamTimeline([...teamTimeLine, timelineValue])
+          }
+      }
     }
 
     const handleTeamPlaceHolder = () =>
@@ -97,13 +136,17 @@ const UserCardDisplay: FC<UserCardDetails> = ({index, userName, title, teamOne, 
         }
         else if (selectedTeam == 6)
         {
-            return (<CommentParent teamPlaceHolder="Undecided" teamValue={selectedTeam} teamVote = {teamVote} allComments = {allComments}/>)
+            return (<CommentParent teamPlaceHolder="🤔" teamValue={selectedTeam} teamVote = {teamVote} allComments = {allComments}/>)
         }
         else if (selectedTeam == 7)
         {
             return (<CommentParent teamPlaceHolder={teamTwo} teamValue={selectedTeam} teamVote = {teamVote} allComments = {allComments}/>)
         }
     }
+
+    const toggleTimeline = () => {
+      setShowTimeline(!showTimeline);
+    };
     return(
         <div>
         <Card key={index} sx={{ minWidth: 575, display: 'flex', flexDirection: 'column' }}>
@@ -126,8 +169,18 @@ const UserCardDisplay: FC<UserCardDetails> = ({index, userName, title, teamOne, 
             setShowAllComments(!allComments);
             setIsGreen(!isGreen);
         }}>
-            <TiFlowSwitch  style={{ color: isGreen ? 'green' : 'black' }}/>
+            <FaRegComments  style={{ color: isGreen ? 'green' : 'black' }}/>
           </div>
+          <div>
+      <div style={{ position: 'absolute', top: 0, left: 0 }} onClick={toggleTimeline}>
+        <TiFlowSwitch />
+      </div>
+      {showTimeline && (
+        <div style={{ position: 'absolute', top: 0, left: 0 }}>
+          <UserTeamTimeline timeline={teamTimeLine}/>
+        </div>
+      )}
+    </div>
         </div>
         <CardActions>
           <Grid container justifyContent="space-between">
@@ -149,7 +202,7 @@ const UserCardDisplay: FC<UserCardDetails> = ({index, userName, title, teamOne, 
               >
                 Undecided
               </Button>
-              <TbFlipFlops onClick={() => handleTeamVote('Undecided')} />
+              <TbFlipFlops onClick={() => handleTeamVote('🤔')} />
             </div>
             <div>
               <Button

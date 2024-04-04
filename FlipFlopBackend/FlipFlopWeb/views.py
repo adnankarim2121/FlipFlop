@@ -95,7 +95,7 @@ def add_new_community(request):
         
         # Get the next auto-incrementing id from the Communities table
         if Communities.objects.count() == 0:
-            next_id = 0
+            next_id = 1
         else:
             next_id = Communities.objects.order_by('-id').first().id + 1
 
@@ -110,10 +110,13 @@ def add_new_community(request):
 @csrf_exempt
 def get_all_questions(request, communityIndex):
     if request.method == 'GET':
-        questions = Questions.objects.filter(index=communityIndex).values('data')
-        dataToAdjust = list(questions)
-        allQuestions = [item['data'] for item in dataToAdjust]
-        return JsonResponse(allQuestions, safe=False)
+        if communityIndex is not None:
+            questions = Questions.objects.filter(index=communityIndex).values('data')
+            dataToAdjust = list(questions)
+            allQuestions = [item['data'] for item in dataToAdjust]
+            return JsonResponse(allQuestions, safe=False)
+        else:
+            return JsonResponse({'error': 'communityIndex parameter is required'}, status=400)
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=400)
 
