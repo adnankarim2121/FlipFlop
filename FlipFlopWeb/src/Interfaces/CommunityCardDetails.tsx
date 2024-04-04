@@ -1,6 +1,6 @@
 export interface CommunityCardDetails
 {
-    index?: number
+    index: number
     title?: string
     description?:string
 }
