@@ -7,6 +7,7 @@ import { useUser } from '../hooks/useUser';
 import { CiCircleCheck } from "react-icons/ci";
 import Header from './Header';
 import { UserInfo } from '../hooks/useUser';
+import { UserInfoLocal } from '../Interfaces/UserInfoLocal';
 
 
 const CreateUserName: React.FC = () => {
@@ -37,6 +38,15 @@ const CreateUserName: React.FC = () => {
             const userNameExists = await checkUsernameExists(updatedUserName)
             if (!userNameExists)
             {
+                const userInfoString = localStorage.getItem('userInfo');
+                const userInfoObject: UserInfoLocal = JSON.parse(userInfoString!);
+                const updatedUserInfo = { ...userInfoObject, username: updatedUserName };
+
+                // Stringify the updated userInfo object
+                const updatedUserInfoString = JSON.stringify(updatedUserInfo);
+        
+                // Save the updated userInfo object back to local storage
+                localStorage.setItem('userInfo', updatedUserInfoString);
                 toast(`Welcome to FlipFlop ${username}`)
                 setUserInfo((prevUserInfo: UserInfo) => ({
                     ...prevUserInfo,

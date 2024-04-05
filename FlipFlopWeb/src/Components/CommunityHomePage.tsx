@@ -8,12 +8,15 @@ import Header from "./Header";
 import { Typography } from "@mui/material";
 import axios from "axios";
 import { useUser } from "../hooks/useUser";
+import { UserInfoLocal } from "../Interfaces/UserInfoLocal";
 
 function CommunityHomePage()
 {
     const navigate = useNavigate();
     var { urlQuestion} = useParams();
     const [userInfo, setUserInfo] = useUser();
+    const userInfoString = localStorage.getItem('userInfo');
+    const userInfoObject: UserInfoLocal = JSON.parse(userInfoString!) as UserInfoLocal;
 
     const redirectToQuestionHomePage = (title: string | undefined, teamOne: string | undefined, teamTwo:string | undefined, context:string | undefined, userName:string | undefined, link:string | undefined, profilePic:string | undefined, uuid:any) => {
         urlQuestion = title?.replace(/\s/g, "")
@@ -61,10 +64,10 @@ function CommunityHomePage()
 
     const addNewQuestion = async (details: UserCardDetails) =>
     {
-        if (userInfo)
+        if (userInfoObject)
         {
-            details.profilePic = userInfo.picture
-            details.userName = userInfo.username
+            details.profilePic = userInfoObject.picture
+            details.userName = userInfoObject.username
         }
         try {
             const response = await axios.post('http://localhost:8000/add-new-question/', {details, communityIndex});
