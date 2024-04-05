@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import UserComments from "./UserComments";
 import useNode from "../hooks/useNode";
 import axios from "axios";
+import { UserInfoLocal } from "../Interfaces/UserInfoLocal";
 
 const CommentParent = ({teamPlaceHolder, teamValue, teamVote, allComments, profilePicture, username, uuid}:
     {teamPlaceHolder? : string, teamValue? : number, teamVote?: string, allComments?:boolean, profilePicture?:string, username?:string, uuid:any}) => {
@@ -15,6 +16,8 @@ const CommentParent = ({teamPlaceHolder, teamValue, teamVote, allComments, profi
   const [commentsData, setCommentsData] = useState(comments);
 
   const { insertNode, editNode, deleteNode } = useNode();
+  const userInfoString = localStorage.getItem('userInfo');
+  const userInfoObject: UserInfoLocal = JSON.parse(userInfoString!) as UserInfoLocal;
 
   const handleInsertNode = (folderId:any, item:any, teamValueFromUser?:number, profilePictureFromUser?:string, usernameFromUser?:string) => {
     const finalStructure = insertNode(commentsData, folderId, item, teamValueFromUser, profilePictureFromUser, usernameFromUser);
@@ -42,6 +45,8 @@ const CommentParent = ({teamPlaceHolder, teamValue, teamVote, allComments, profi
 
   const pushCommentsToDb = async (commentsToPush: any) =>
   {
+    var uuid = userInfoObject?.questionUuid
+    console.log("from user info local, uuid ", uuid)
     try {
         const response = await axios.post('http://localhost:8000/update-comments/', {commentsToPush, uuid});
         return response.data.valid
@@ -54,8 +59,9 @@ const CommentParent = ({teamPlaceHolder, teamValue, teamVote, allComments, profi
 
   const getAllComments = async () =>
   {
+    var uuid = userInfoObject?.questionUuid
     try {
-      const response = await axios.get(`http://localhost:8000/get-all-comments/${uuid}`, uuid);
+      const response = await axios.get(`http://localhost:8000/get-all-comments/${uuid}`, uuid as any);
       const comments = response.data;
       const allComments = comments[0].comments
       console.log("retrieved ", allComments)

@@ -19,6 +19,13 @@ function CommunityHomePage()
     const userInfoObject: UserInfoLocal = JSON.parse(userInfoString!) as UserInfoLocal;
 
     const redirectToQuestionHomePage = (title: string | undefined, teamOne: string | undefined, teamTwo:string | undefined, context:string | undefined, userName:string | undefined, link:string | undefined, profilePic:string | undefined, uuid:any) => {
+        const updatedUserInfo = { ...userInfoObject, questionUuid: uuid};
+
+        // Stringify the updated userInfo object
+        const updatedUserInfoString = JSON.stringify(updatedUserInfo);
+
+        // Save the updated userInfo object back to local storage
+        localStorage.setItem('userInfo', updatedUserInfoString);
         urlQuestion = title?.replace(/\s/g, "")
         navigate(`/question/${urlQuestion}`, { state: { title: title || '', 
         teamOne: teamOne || '',
@@ -37,6 +44,7 @@ function CommunityHomePage()
     const [title, setTitle] = useState<string>('');
     const [description, setDescription] = useState<string>('');
     const [communityIndex, setCommunityIndex] = useState<any>(0);
+    const [renderCards, setRenderCards] = useState<Boolean>(false)
 
     const handleAddIconClick = () => {
         setShowNewCard(true);
@@ -49,6 +57,7 @@ function CommunityHomePage()
             setNewCards([...newCards, details]);
         }
         setShowNewCard(false);
+        setRenderCards(!renderCards)
     };
 
 
@@ -81,7 +90,7 @@ function CommunityHomePage()
       useEffect (()=>
       {
         getAllQuestions()
-      }, [])
+      }, [renderCards])
 
       useEffect(() => {
         if (location.state) {

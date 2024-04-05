@@ -28,6 +28,7 @@ const UserCardDisplay: FC<UserCardDetails> = ({index, userName, title, teamOne, 
     const [isGreen, setIsGreen] = useState<boolean>(false);
     const [userInfo, setUserInfo] = useUser();
     const [showTimeline, setShowTimeline] = useState(false);
+    
 
     const renderLink = (link: string | undefined) => {
         if (link != undefined)

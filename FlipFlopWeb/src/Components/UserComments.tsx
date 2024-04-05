@@ -11,6 +11,7 @@ import Avatar from '@mui/material/Avatar';
 import { deepOrange } from '@mui/material/colors';
 import { Grid } from "@mui/material";
 import { useUser } from "../hooks/useUser";
+import { UserInfoLocal } from "../Interfaces/UserInfoLocal";
 
 const UserComments = ({
   handleInsertNode,
@@ -41,6 +42,8 @@ const UserComments = ({
   const [expand, setExpand] = useState(true);
   const inputRef = useRef<HTMLSpanElement>(null);
   const [userInfo, setUserInfo] = useUser();
+  const userInfoString = localStorage.getItem('userInfo');
+  const userInfoObject: UserInfoLocal = JSON.parse(userInfoString!) as UserInfoLocal;
 
   useEffect(() => {
     inputRef?.current?.focus();
@@ -73,11 +76,11 @@ const UserComments = ({
     <div style={{paddingTop:'50'}}>
     <Grid container direction="row" spacing={2} alignItems="center">
         <Grid item>
-            <Avatar src={comment.profilePicture} sx={{ bgcolor: deepOrange[500], width: 20, height: 20, fontSize: 8 }}></Avatar>
+            <Avatar src={comment.id === 1 ? userInfoObject?.picture:comment.profilePicture} sx={{ bgcolor: deepOrange[500], width: 20, height: 20, fontSize: 8 }}></Avatar>
         </Grid>
         <Grid item>
-            <Typography sx={{ fontSize: 8 }} color="text.secondary" gutterBottom>
-            {comment.username}
+            <Typography sx={{ fontSize: 8}} color="text.secondary">
+            {comment.id === 1 ? userInfoObject?.username:comment.username}
             </Typography>
         </Grid>
         <Grid item>
@@ -86,7 +89,7 @@ const UserComments = ({
             </Typography>
         </Grid>
     </Grid>
-      <div className={comment.id === 1 ? "inputContainer" : "commentContainer"} style={{marginTop:5}}>
+      <div className={comment.id === 1 ? "inputContainer" : "commentContainer"} style={{marginTop:5, marginBottom:20}}>
         {comment.id === 1 ? (
           <>
             <input
