@@ -11,6 +11,7 @@ import { UserInfo } from '../hooks/useUser';
 function LoginPage() {
     const navigate = useNavigate();
     const [userInfo, setUserInfo] = useUser();
+    localStorage.clear()
 
     const redirectToHomePage = async (credential?: string) => {
         if (credential!=null)

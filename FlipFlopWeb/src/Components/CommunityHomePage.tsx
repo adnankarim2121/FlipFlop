@@ -92,14 +92,15 @@ function CommunityHomePage()
         getAllQuestions()
       }, [renderCards])
 
-      useEffect(() => {
-        if (location.state) {
-          const { title: newTitle, description: newDescription, communityIndex: newCommunityIndex } = location.state;
-          setTitle(newTitle || '');
-          setDescription(newDescription || '');
-          setCommunityIndex(newCommunityIndex || 0);
-        }
-      }, [location.state]);
+      //I dont think we need this.
+    //   useEffect(() => {
+    //     if (location.state) {
+    //       const { title: newTitle, description: newDescription, communityIndex: newCommunityIndex } = location.state;
+    //       setTitle(newTitle || '');
+    //       setDescription(newDescription || '');
+    //       setCommunityIndex(newCommunityIndex || 0);
+    //     }
+    //   }, [location.state]);
 
       return (
     <div style={{ position: 'relative', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
