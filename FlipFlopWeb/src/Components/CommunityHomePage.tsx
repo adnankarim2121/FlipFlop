@@ -8,14 +8,24 @@ import Header from "./Header";
 import { Typography } from "@mui/material";
 import axios from "axios";
 import { useUser } from "../hooks/useUser";
+import { UserInfoLocal } from "../Interfaces/UserInfoLocal";
 
 function CommunityHomePage()
 {
     const navigate = useNavigate();
     var { urlQuestion} = useParams();
     const [userInfo, setUserInfo] = useUser();
+    const userInfoString = localStorage.getItem('userInfo');
+    const userInfoObject: UserInfoLocal = JSON.parse(userInfoString!) as UserInfoLocal;
 
-    const redirectToQuestionHomePage = (title: string | undefined, teamOne: string | undefined, teamTwo:string | undefined, context:string | undefined, userName:string | undefined, link:string | undefined, profilePic:string | undefined) => {
+    const redirectToQuestionHomePage = (title: string | undefined, teamOne: string | undefined, teamTwo:string | undefined, context:string | undefined, userName:string | undefined, link:string | undefined, profilePic:string | undefined, uuid:any) => {
+        const updatedUserInfo = { ...userInfoObject, questionUuid: uuid};
+
+        // Stringify the updated userInfo object
+        const updatedUserInfoString = JSON.stringify(updatedUserInfo);
+
+        // Save the updated userInfo object back to local storage
+        localStorage.setItem('userInfo', updatedUserInfoString);
         urlQuestion = title?.replace(/\s/g, "")
         navigate(`/question/${urlQuestion}`, { state: { title: title || '', 
         teamOne: teamOne || '',
@@ -23,7 +33,8 @@ function CommunityHomePage()
         context: context || '',
         userName: userName || '',
         link:link || '',
-        profilePic:profilePic || ''} });
+        profilePic:profilePic || '',
+        uuid} });
     };
     
     const location = useLocation();
@@ -33,6 +44,7 @@ function CommunityHomePage()
     const [title, setTitle] = useState<string>('');
     const [description, setDescription] = useState<string>('');
     const [communityIndex, setCommunityIndex] = useState<any>(0);
+    const [renderCards, setRenderCards] = useState<Boolean>(false)
 
     const handleAddIconClick = () => {
         setShowNewCard(true);
@@ -45,6 +57,7 @@ function CommunityHomePage()
             setNewCards([...newCards, details]);
         }
         setShowNewCard(false);
+        setRenderCards(!renderCards)
     };
 
 
@@ -60,10 +73,10 @@ function CommunityHomePage()
 
     const addNewQuestion = async (details: UserCardDetails) =>
     {
-        if (userInfo)
+        if (userInfoObject)
         {
-            details.profilePic = userInfo.picture
-            details.userName = userInfo.username
+            details.profilePic = userInfoObject.picture
+            details.userName = userInfoObject.username
         }
         try {
             const response = await axios.post('http://localhost:8000/add-new-question/', {details, communityIndex});
@@ -77,16 +90,17 @@ function CommunityHomePage()
       useEffect (()=>
       {
         getAllQuestions()
-      }, [])
+      }, [renderCards])
 
-      useEffect(() => {
-        if (location.state) {
-          const { title: newTitle, description: newDescription, communityIndex: newCommunityIndex } = location.state;
-          setTitle(newTitle || '');
-          setDescription(newDescription || '');
-          setCommunityIndex(newCommunityIndex || 0);
-        }
-      }, [location.state]);
+      //I dont think we need this.
+    //   useEffect(() => {
+    //     if (location.state) {
+    //       const { title: newTitle, description: newDescription, communityIndex: newCommunityIndex } = location.state;
+    //       setTitle(newTitle || '');
+    //       setDescription(newDescription || '');
+    //       setCommunityIndex(newCommunityIndex || 0);
+    //     }
+    //   }, [location.state]);
 
       return (
     <div style={{ position: 'relative', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -96,7 +110,7 @@ function CommunityHomePage()
   ).map((userCard, index) => (
                         <div style={{marginRight:'50px'}} 
                         onClick={() => {
-                            redirectToQuestionHomePage(userCard.title, userCard.teamOne, userCard.teamTwo, userCard.context, userCard.userName, userCard.link, userCard.profilePic);
+                            redirectToQuestionHomePage(userCard.title, userCard.teamOne, userCard.teamTwo, userCard.context, userCard.userName, userCard.link, userCard.profilePic, userCard.uuid);
                         }}>
                         <UserCard 
                         key={index} 

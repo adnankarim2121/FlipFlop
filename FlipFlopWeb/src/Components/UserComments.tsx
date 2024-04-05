@@ -11,6 +11,7 @@ import Avatar from '@mui/material/Avatar';
 import { deepOrange } from '@mui/material/colors';
 import { Grid } from "@mui/material";
 import { useUser } from "../hooks/useUser";
+import { UserInfoLocal } from "../Interfaces/UserInfoLocal";
 
 const UserComments = ({
   handleInsertNode,
@@ -20,7 +21,9 @@ const UserComments = ({
   teamPlaceHolder,
   teamValue,
   teamVote,
-  allComments
+  allComments,
+  username,
+  profilePic
 }: {
     handleInsertNode: any,
     handleEditNode: any,
@@ -29,14 +32,18 @@ const UserComments = ({
     teamPlaceHolder: string,
     teamValue?: number,
     teamVote?: string,
-    allComments?: boolean
+    allComments?: boolean,
+    username?:string,
+    profilePic?:string
   }) => {
   const [input, setInput] = useState("");
   const [editMode, setEditMode] = useState(false);
   const [showInput, setShowInput] = useState(false);
-  const [expand, setExpand] = useState(false);
+  const [expand, setExpand] = useState(true);
   const inputRef = useRef<HTMLSpanElement>(null);
   const [userInfo, setUserInfo] = useUser();
+  const userInfoString = localStorage.getItem('userInfo');
+  const userInfoObject: UserInfoLocal = JSON.parse(userInfoString!) as UserInfoLocal;
 
   useEffect(() => {
     inputRef?.current?.focus();
@@ -51,8 +58,9 @@ const UserComments = ({
     if (editMode) {
       handleEditNode(comment.id, inputRef?.current?.innerText);
     } else {
+      console.log('replying comment in add', userInfo?.picture, userInfo?.username)
       setExpand(true);
-      handleInsertNode(comment.id, input, teamValue);
+      handleInsertNode(comment.id, input, teamValue, userInfo?.picture, userInfo?.username);
       setShowInput(false);
       setInput("");
     }
@@ -68,11 +76,11 @@ const UserComments = ({
     <div style={{paddingTop:'50'}}>
     <Grid container direction="row" spacing={2} alignItems="center">
         <Grid item>
-            <Avatar src={userInfo == null? '':userInfo.picture} sx={{ bgcolor: deepOrange[500], width: 20, height: 20, fontSize: 8 }}></Avatar>
+            <Avatar src={comment.id === 1 ? userInfoObject?.picture:comment.profilePicture} sx={{ bgcolor: deepOrange[500], width: 20, height: 20, fontSize: 8 }}></Avatar>
         </Grid>
         <Grid item>
-            <Typography sx={{ fontSize: 8 }} color="text.secondary" gutterBottom>
-            {userInfo == null? '' : userInfo.name}
+            <Typography sx={{ fontSize: 8}} color="text.secondary">
+            {comment.id === 1 ? userInfoObject?.username:comment.username}
             </Typography>
         </Grid>
         <Grid item>
@@ -81,7 +89,7 @@ const UserComments = ({
             </Typography>
         </Grid>
     </Grid>
-      <div className={comment.id === 1 ? "inputContainer" : "commentContainer"} style={{marginTop:5}}>
+      <div className={comment.id === 1 ? "inputContainer" : "commentContainer"} style={{marginTop:5, marginBottom:20}}>
         {comment.id === 1 ? (
           <>
             <input

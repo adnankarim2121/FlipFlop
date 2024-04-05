@@ -8,4 +8,5 @@ export interface UserCardDetails
     context?: string
     link?: string
     profilePic?: string
+    uuid?:any
 }

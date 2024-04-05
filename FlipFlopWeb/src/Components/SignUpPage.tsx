@@ -17,6 +17,7 @@ function SignUpPage() {
             const emailExists = await checkEmailExists(userInfoObject);
             if (!emailExists)
             {
+                localStorage.setItem('userInfo', JSON.stringify(userInfoObject));
                 setUserInfo(userInfoObject);    
                 navigate(`/createUserName`);   
             }

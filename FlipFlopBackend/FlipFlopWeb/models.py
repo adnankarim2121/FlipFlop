@@ -31,6 +31,8 @@ class Communities(models.Model):
 class Questions(models.Model):
     data = models.JSONField()
     index = models.IntegerField()
+    comments = models.JSONField()
+    questionuuid = models.UUIDField()
     class Meta:
         managed = False
         db_table = 'questions'

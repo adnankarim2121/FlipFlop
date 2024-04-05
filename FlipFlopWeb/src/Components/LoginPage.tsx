@@ -11,6 +11,7 @@ import { UserInfo } from '../hooks/useUser';
 function LoginPage() {
     const navigate = useNavigate();
     const [userInfo, setUserInfo] = useUser();
+    localStorage.clear()
 
     const redirectToHomePage = async (credential?: string) => {
         if (credential!=null)
@@ -20,6 +21,7 @@ function LoginPage() {
             const loginExists = loginResponse.valid
             if (loginExists)
             {
+                localStorage.setItem('userInfo', JSON.stringify(userInfoObject));
                 setUserInfo(userInfoObject)
                 setUserInfo((prevUserInfo: UserInfo) => ({
                     ...prevUserInfo,

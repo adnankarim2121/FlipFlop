@@ -1,11 +1,13 @@
 const useNode = () => {
-    const insertNode = function (tree:any, commentId:any, item:any, teamValue?: number) {
+    const insertNode = function (tree:any, commentId:any, item:any, teamValue?: number, profilePicture?:string, username?:string) {
       if (tree.id === commentId) {
         tree.items.push({
           id: new Date().getTime(),
           name: item,
           items: [],
-          teamValue: teamValue
+          teamValue: teamValue,
+          profilePicture: profilePicture,
+          username: username
         });
   
         return tree;
@@ -13,7 +15,7 @@ const useNode = () => {
   
       let latestNode = [];
       latestNode = tree.items.map((ob:any) => {
-        return insertNode(ob, commentId, item, teamValue);
+        return insertNode(ob, commentId, item, teamValue, profilePicture, username);
       });
   
       return { ...tree, items: latestNode };

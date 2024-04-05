@@ -6,7 +6,7 @@ import UserCardDisplay from "./UserCardDisplay";
 function QuestionHomePage()
 {
     const location = useLocation();
-    const { title, teamOne, teamTwo, context, userName, link, profilePic } = location.state;
+    const { title, teamOne, teamTwo, context, userName, link, profilePic, uuid } = location.state;
 
       useEffect (()=>
       {
@@ -26,6 +26,7 @@ function QuestionHomePage()
                         teamOne={teamOne} 
                         teamTwo={teamTwo}
                         link={link}
+                        uuid={uuid}
                         />
                     </div>
 
