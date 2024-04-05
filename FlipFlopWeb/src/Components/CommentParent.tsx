@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import UserComments from "./UserComments";
 import useNode from "../hooks/useNode";
+import axios from "axios";
 
-const CommentParent = ({teamPlaceHolder, teamValue, teamVote, allComments, profilePicture, username}:
-    {teamPlaceHolder? : string, teamValue? : number, teamVote?: string, allComments?:boolean, profilePicture?:string, username?:string}) => {
+const CommentParent = ({teamPlaceHolder, teamValue, teamVote, allComments, profilePicture, username, uuid}:
+    {teamPlaceHolder? : string, teamValue? : number, teamVote?: string, allComments?:boolean, profilePicture?:string, username?:string, uuid:any}) => {
       const comments = {
         id: 1,
         items: [],
@@ -19,6 +20,7 @@ const CommentParent = ({teamPlaceHolder, teamValue, teamVote, allComments, profi
     const finalStructure = insertNode(commentsData, folderId, item, teamValueFromUser, profilePictureFromUser, usernameFromUser);
     console.log(finalStructure)
     //push to db after final structre
+    pushCommentsToDb(finalStructure)
     setCommentsData(finalStructure);
   };
 
@@ -26,19 +28,46 @@ const CommentParent = ({teamPlaceHolder, teamValue, teamVote, allComments, profi
     const finalStructure = editNode(commentsData, folderId, value);
     console.log(finalStructure)
     //push to db after final structre
+    pushCommentsToDb(finalStructure)
     setCommentsData(finalStructure);
   };
 
   const handleDeleteNode = (folderId:any) => {
     const finalStructure = deleteNode(commentsData, folderId);
     const temp = { ...finalStructure };
-    console.log(temp)
+    console.log("deleted", temp)
+    pushCommentsToDb(temp)
     setCommentsData(temp);
   };
 
+  const pushCommentsToDb = async (commentsToPush: any) =>
+  {
+    try {
+        const response = await axios.post('http://localhost:8000/update-comments/', {commentsToPush, uuid});
+        return response.data.valid
+    }
+    catch (error) 
+    {
+        console.error('Error adding community:', error);
+    }
+  }
+
+  const getAllComments = async () =>
+  {
+    try {
+      const response = await axios.get(`http://localhost:8000/get-all-comments/${uuid}`, uuid);
+      const comments = response.data;
+      const allComments = comments[0].comments
+      console.log("retrieved ", allComments)
+      setCommentsData(allComments)
+  } catch (error) {
+      console.error('Error fetching all questions:', error);
+  }
+  }
   useEffect(() =>
   {
-    setCommentsData(comments)
+    getAllComments()
+    // setCommentsData(comments)
   }, [])
 
   return (

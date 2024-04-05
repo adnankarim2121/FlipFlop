@@ -4,6 +4,7 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 import logging
 from django.core.serializers import serialize
+import uuid
 
 logger = logging.getLogger(__name__)
 
@@ -95,7 +96,7 @@ def add_new_community(request):
         
         # Get the next auto-incrementing id from the Communities table
         if Communities.objects.count() == 0:
-            next_id = 1
+            next_id = 0
         else:
             next_id = Communities.objects.order_by('-id').first().id + 1
 
@@ -128,7 +129,35 @@ def add_new_question(request):
         question = data.get('details')
         index = data.get('communityIndex')
         print("my index", index)
-        newQuestion = Questions(index=index, data=question)
+        new_uuid = str(uuid.uuid4())
+        while Questions.objects.filter(questionuuid=new_uuid).exists():
+            new_uuid = str(uuid.uuid4())
+        question['uuid'] = new_uuid
+        newQuestion = Questions(index=index, data=question, questionuuid=new_uuid)
         newQuestion.save()
         return JsonResponse({'valid': True})
     return JsonResponse({'valid': False})
+
+@csrf_exempt
+def update_comments(request):
+    if request.method == 'POST':
+        data = json.loads(request.body.decode('utf-8'))
+        comments = data.get('commentsToPush')
+        uuid_from_client = data.get('uuid')
+        print("my uuid", uuid_from_client)
+        question = Questions.objects.get(questionuuid=uuid_from_client)
+        question.comments = comments
+        question.save()
+        return JsonResponse({'valid': True})
+    return JsonResponse({'valid': False})
+
+def get_all_comments(request, uuid):
+    if request.method == 'GET':
+        if uuid is not None:
+            comments = Questions.objects.filter(questionuuid=uuid).values('comments')
+            print(comments)
+            dataToSend = list(comments)
+            return JsonResponse(dataToSend, safe=False)
+        else:
+            return JsonResponse({'error': 'Invalid request method'}, status=400)
+        

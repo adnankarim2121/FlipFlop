@@ -19,7 +19,7 @@ import { UserTeamTimelineProps } from "../Interfaces/UserTeamTimelineProps";
 import { toast } from "react-toastify";
 
 
-const UserCardDisplay: FC<UserCardDetails> = ({index, userName, title, teamOne, teamTwo, context, link, profilePic}) =>
+const UserCardDisplay: FC<UserCardDetails> = ({index, userName, title, teamOne, teamTwo, context, link, profilePic, uuid}) =>
 {
     const [selectedTeam, setSelectedTeam] = useState<number>(0);
     const [teamVote, setSelectedTeamVote] = useState<string>('');
@@ -132,15 +132,15 @@ const UserCardDisplay: FC<UserCardDetails> = ({index, userName, title, teamOne, 
         }
         else if (selectedTeam == 5)
         {
-            return (<CommentParent teamPlaceHolder={teamOne} teamValue={selectedTeam} teamVote = {teamVote} allComments = {allComments} profilePicture={userInfo?.picture} username={userInfo?.username}/>)
+            return (<CommentParent teamPlaceHolder={teamOne} teamValue={selectedTeam} teamVote = {teamVote} allComments = {allComments} profilePicture={userInfo?.picture} username={userInfo?.username} uuid={uuid}/>)
         }
         else if (selectedTeam == 6)
         {
-            return (<CommentParent teamPlaceHolder="🤔" teamValue={selectedTeam} teamVote = {teamVote} allComments = {allComments} profilePicture={userInfo?.picture} username={userInfo?.username}/>)
+            return (<CommentParent teamPlaceHolder="🤔" teamValue={selectedTeam} teamVote = {teamVote} allComments = {allComments} profilePicture={userInfo?.picture} username={userInfo?.username} uuid={uuid}/>)
         }
         else if (selectedTeam == 7)
         {
-            return (<CommentParent teamPlaceHolder={teamTwo} teamValue={selectedTeam} teamVote = {teamVote} allComments = {allComments} profilePicture={userInfo?.picture} username={userInfo?.username}/>)
+            return (<CommentParent teamPlaceHolder={teamTwo} teamValue={selectedTeam} teamVote = {teamVote} allComments = {allComments} profilePicture={userInfo?.picture} username={userInfo?.username} uuid={uuid}/>)
         }
     }
 

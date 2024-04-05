@@ -15,7 +15,7 @@ function CommunityHomePage()
     var { urlQuestion} = useParams();
     const [userInfo, setUserInfo] = useUser();
 
-    const redirectToQuestionHomePage = (title: string | undefined, teamOne: string | undefined, teamTwo:string | undefined, context:string | undefined, userName:string | undefined, link:string | undefined, profilePic:string | undefined) => {
+    const redirectToQuestionHomePage = (title: string | undefined, teamOne: string | undefined, teamTwo:string | undefined, context:string | undefined, userName:string | undefined, link:string | undefined, profilePic:string | undefined, uuid:any) => {
         urlQuestion = title?.replace(/\s/g, "")
         navigate(`/question/${urlQuestion}`, { state: { title: title || '', 
         teamOne: teamOne || '',
@@ -23,7 +23,8 @@ function CommunityHomePage()
         context: context || '',
         userName: userName || '',
         link:link || '',
-        profilePic:profilePic || ''} });
+        profilePic:profilePic || '',
+        uuid} });
     };
     
     const location = useLocation();
@@ -96,7 +97,7 @@ function CommunityHomePage()
   ).map((userCard, index) => (
                         <div style={{marginRight:'50px'}} 
                         onClick={() => {
-                            redirectToQuestionHomePage(userCard.title, userCard.teamOne, userCard.teamTwo, userCard.context, userCard.userName, userCard.link, userCard.profilePic);
+                            redirectToQuestionHomePage(userCard.title, userCard.teamOne, userCard.teamTwo, userCard.context, userCard.userName, userCard.link, userCard.profilePic, userCard.uuid);
                         }}>
                         <UserCard 
                         key={index} 

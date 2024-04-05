@@ -38,7 +38,7 @@ const UserComments = ({
   const [input, setInput] = useState("");
   const [editMode, setEditMode] = useState(false);
   const [showInput, setShowInput] = useState(false);
-  const [expand, setExpand] = useState(false);
+  const [expand, setExpand] = useState(true);
   const inputRef = useRef<HTMLSpanElement>(null);
   const [userInfo, setUserInfo] = useUser();
 
