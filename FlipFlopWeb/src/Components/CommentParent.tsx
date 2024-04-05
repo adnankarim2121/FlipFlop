@@ -59,7 +59,10 @@ const CommentParent = ({teamPlaceHolder, teamValue, teamVote, allComments, profi
       const comments = response.data;
       const allComments = comments[0].comments
       console.log("retrieved ", allComments)
-      setCommentsData(allComments)
+      if (allComments != null)
+      {
+        setCommentsData(allComments)
+      }
   } catch (error) {
       console.error('Error fetching all questions:', error);
   }
