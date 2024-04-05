@@ -73,11 +73,11 @@ const UserComments = ({
     <div style={{paddingTop:'50'}}>
     <Grid container direction="row" spacing={2} alignItems="center">
         <Grid item>
-            <Avatar src={userInfo == null? '':userInfo.picture} sx={{ bgcolor: deepOrange[500], width: 20, height: 20, fontSize: 8 }}></Avatar>
+            <Avatar src={comment.profilePicture} sx={{ bgcolor: deepOrange[500], width: 20, height: 20, fontSize: 8 }}></Avatar>
         </Grid>
         <Grid item>
             <Typography sx={{ fontSize: 8 }} color="text.secondary" gutterBottom>
-            {userInfo == null? '' : userInfo.username}
+            {comment.username}
             </Typography>
         </Grid>
         <Grid item>
