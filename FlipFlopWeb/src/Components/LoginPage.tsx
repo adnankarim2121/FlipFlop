@@ -21,7 +21,8 @@ function LoginPage() {
             const loginExists = loginResponse.valid
             if (loginExists)
             {
-                localStorage.setItem('userInfo', JSON.stringify(userInfoObject));
+                const updatedUserInfo = { ...userInfoObject, username: loginResponse.username };
+                localStorage.setItem('userInfo', JSON.stringify(updatedUserInfo));
                 setUserInfo(userInfoObject)
                 setUserInfo((prevUserInfo: UserInfo) => ({
                     ...prevUserInfo,
