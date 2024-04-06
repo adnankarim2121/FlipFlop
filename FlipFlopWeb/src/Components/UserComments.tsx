@@ -94,7 +94,7 @@ const UserComments = ({
         </Grid>
         <Grid item>
             <Typography sx={{ fontSize: 8 }} color="text.secondary" >
-                {teamVote == '' ? 'Undecided' : teamVote}
+                {teamVote}
             </Typography>
         </Grid>
     </Grid>
