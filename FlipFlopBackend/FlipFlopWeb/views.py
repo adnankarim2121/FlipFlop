@@ -112,6 +112,7 @@ def add_new_community(request):
 def get_all_questions(request, communityIndex):
     if request.method == 'GET':
         if communityIndex is not None:
+            print(communityIndex)
             questions = Questions.objects.filter(index=communityIndex).values('data')
             dataToAdjust = list(questions)
             allQuestions = [item['data'] for item in dataToAdjust]

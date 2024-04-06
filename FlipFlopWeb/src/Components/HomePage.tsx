@@ -7,6 +7,7 @@ import NewCommunityCard from "./NewCommunityCard";
 import { useNavigate, useParams } from 'react-router-dom'; 
 import axios from "axios";
 import SidebarUsers from "./SidebarUsers";
+import Loader from "./Loader";
 
 function HomePage()
 {
@@ -15,6 +16,7 @@ function HomePage()
 
     const redirectToCommunityHomePage = (title: string | undefined, description: string | undefined, communityIndex: number) => {
         urlCommunity = title?.replace(/\s/g, "")
+        console.log("my community index is: ", communityIndex)
         navigate(`/community/${urlCommunity}`, { state: { title: title || '', description: description || '', communityIndex: communityIndex } });
     };
     
@@ -22,6 +24,7 @@ function HomePage()
     const [showNewCommunity, setShowNewCommunity] = useState<Boolean>(false);
     const [searchQuery, setSearchQuery] = useState<string>('');
     const [isFocused, setIsFocused] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     const handleFocus = () => {
         setIsFocused(true);
@@ -67,61 +70,69 @@ function HomePage()
 
     useEffect (()=>
     {
+        setTimeout(() => {
+            setLoading(false); // Set loading to false when the operation is complete
+        }, 1500);
+
         getAllCommunities()
     }, [])
 
-      return (
+    return (
         <div style={{ position: 'relative', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', overflowX: 'auto', whiteSpace: 'nowrap' }}>
-            {newCommunities
-  .filter((communityCard:any)=>
-    communityCard.title.toLowerCase().includes(searchQuery.toLowerCase())
-  )
-  .map(communityCard => (
-    <div
-      style={{ marginRight: '50px' }}
-      onClick={() => {
-        redirectToCommunityHomePage(
-          communityCard.title,
-          communityCard.description,
-          communityCard.index
-        );
-      }}
-      key={communityCard.index}
-    >
-      <CommunityCard
-        index={communityCard.index}
-        title={communityCard.title}
-        description={communityCard.description}
-      />
-    </div>
-  ))}
-
-
-            </div>
-    
-            {showNewCommunity && (
-                <div style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: '1000' }}>
-                    <NewCommunityCard onSubmit={handleNewCommunityCardSubmit} />
-                </div>
+            {loading ? (
+                <Loader />
+            ) : (
+                <>
+                    <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', overflowX: 'auto', whiteSpace: 'nowrap' }}>
+                        {newCommunities
+                            .filter((communityCard: any) =>
+                                communityCard.title.toLowerCase().includes(searchQuery.toLowerCase())
+                            )
+                            .map(communityCard => (
+                                <div
+                                    style={{ marginRight: '50px' }}
+                                    onClick={() => {
+                                        redirectToCommunityHomePage(
+                                            communityCard.title,
+                                            communityCard.description,
+                                            communityCard.index
+                                        );
+                                    }}
+                                    key={communityCard.index}
+                                >
+                                    <CommunityCard
+                                        index={communityCard.index}
+                                        title={communityCard.title}
+                                        description={communityCard.description}
+                                    />
+                                </div>
+                            ))}
+                    </div>
+                    {showNewCommunity && (
+                        <div style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: '1000' }}>
+                            <NewCommunityCard onSubmit={handleNewCommunityCardSubmit} />
+                        </div>
+                    )}
+                    <div style={{ position: 'fixed', bottom: '20px', right: '50%', zIndex: '1000' }}>
+                        <AddButton onClick={handleAddIconClick} />
+                    </div>
+                    <div style={{ position: 'fixed', top: '20px', left: '500px', zIndex: '1000' }}>
+                        <input
+                            type="text"
+                            placeholder={isFocused ? '' : 'Search by topic'}
+                            value={searchQuery}
+                            onFocus={handleFocus}
+                            onBlur={handleBlur}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            style={{ width: '300px', padding: '5px', textAlign: 'center', borderRadius: 50 }}
+                        />
+                    </div>
+                    <SidebarUsers />
+                </>
             )}
-            <div style={{ position: 'fixed', bottom: '20px', right: '50%', zIndex: '1000' }}>
-                <AddButton onClick={handleAddIconClick} />
-            </div>
-            <div style={{ position: 'fixed', top: '20px', left: '500px', zIndex: '1000' }}>
-                <input
-                    type="text"
-                    placeholder={isFocused ? '' : 'Search by topic'}
-                    value={searchQuery}
-                    onFocus={handleFocus}
-                    onBlur={handleBlur}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    style={{ width: '300px', padding: '5px', textAlign: 'center', borderRadius: 50}}
-                />
-             </div>
-                <SidebarUsers/>
         </div>
     );
+    
     
 }
 
