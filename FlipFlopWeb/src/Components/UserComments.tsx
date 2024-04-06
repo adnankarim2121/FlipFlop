@@ -42,12 +42,20 @@ const UserComments = ({
   const [expand, setExpand] = useState(true);
   const inputRef = useRef<HTMLSpanElement>(null);
   const [userInfo, setUserInfo] = useUser();
-  const userInfoString = localStorage.getItem('userInfo');
-  const userInfoObject: UserInfoLocal = JSON.parse(userInfoString!) as UserInfoLocal;
+  const [userInfoObject, setUserInfoObject] = useState<UserInfoLocal | null>(null);
 
   useEffect(() => {
     inputRef?.current?.focus();
   }, [editMode]);
+
+  useEffect(() => {
+    const userInfoString = localStorage.getItem('userInfo');
+    if (userInfoString) {
+      const userInfo: UserInfoLocal = JSON.parse(userInfoString);
+      console.log("user info string", userInfo)
+      setUserInfoObject(userInfo);
+    }
+  }, []);
 
   const handleNewComment = () => {
     setExpand(!expand);
@@ -72,6 +80,7 @@ const UserComments = ({
     handleDeleteNode(comment.id);
   };
 
+  //make sure to save all user local storage related stuff on sign up and login.
   return (
     <div style={{paddingTop:'50'}}>
     <Grid container direction="row" spacing={2} alignItems="center">
