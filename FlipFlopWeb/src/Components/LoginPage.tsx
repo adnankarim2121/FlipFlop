@@ -1,12 +1,12 @@
 import { GoogleLogin } from '@react-oauth/google';
 import { useNavigate } from 'react-router-dom';
-import Header from './Header';
 import { JwtPayload, jwtDecode } from "jwt-decode";
 import { useUser } from '../hooks/useUser';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { UserInfo } from '../hooks/useUser';
+import HeaderStartup from './HeaderStartup';
 
 function LoginPage() {
     const navigate = useNavigate();
@@ -67,7 +67,7 @@ function LoginPage() {
                 <Link to="/signUp">Sign Up</Link>
             </div>
             <div style={{ position: 'fixed', top: '20px', left: '0%', zIndex: '1000' }}>
-                <Header />
+                <HeaderStartup />
             </div>
         </div>
     );
