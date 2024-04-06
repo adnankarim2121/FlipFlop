@@ -46,6 +46,15 @@ function CommunityHomePage()
     const [description, setDescription] = useState<string>('');
     const [communityIndex, setCommunityIndex] = useState<any>(0);
     const [renderCards, setRenderCards] = useState<Boolean>(false)
+    const [isFocused, setIsFocused] = useState(false);
+
+    const handleFocus = () => {
+        setIsFocused(true);
+    };
+
+    const handleBlur = () => {
+        setIsFocused(false);
+    };
 
     const handleAddIconClick = () => {
         setShowNewCard(true);
@@ -137,10 +146,12 @@ function CommunityHomePage()
             <div style={{ position: 'fixed', top: '20px', marginTop:'60px', marginBottom:'60px', zIndex: '1000', justifyContent: 'center', alignItems: 'center' }}>
                 <input
                     type="text"
-                    placeholder="Search by question"
+                    placeholder={isFocused ? '' : 'Search by question'}
                     value={searchQuery}
+                    onFocus={handleFocus}
+                    onBlur={handleBlur}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    style={{ width: '300px', padding: '5px' }}
+                    style={{ width: '300px', padding: '5px', textAlign:'center' }}
                 />
                 </div>
 
