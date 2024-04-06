@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useLocation } from 'react-router-dom';
 import Header from "./Header";
 import UserCardDisplay from "./UserCardDisplay";
+import SidebarUsers from "./SidebarUsers";
 
 function QuestionHomePage()
 {
@@ -32,8 +33,10 @@ function QuestionHomePage()
 
             </div>
             <div style={{ position: 'fixed', top: '20px', left: '0%', zIndex: '1000' }}>
-                <Header/>
+                {/* <Header/> */}
+                
             </div>
+            <SidebarUsers/>
         </div>
     );
 }

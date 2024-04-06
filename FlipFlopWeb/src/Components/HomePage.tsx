@@ -6,6 +6,7 @@ import CommunityCard from "./CommunityCard";
 import NewCommunityCard from "./NewCommunityCard";
 import { useNavigate, useParams } from 'react-router-dom'; 
 import axios from "axios";
+import SidebarUsers from "./SidebarUsers";
 
 function HomePage()
 {
@@ -20,7 +21,15 @@ function HomePage()
     const [newCommunities, setNewCommunities] = useState<CommunityCardDetails[]>([])
     const [showNewCommunity, setShowNewCommunity] = useState<Boolean>(false);
     const [searchQuery, setSearchQuery] = useState<string>('');
+    const [isFocused, setIsFocused] = useState(false);
 
+    const handleFocus = () => {
+        setIsFocused(true);
+    };
+
+    const handleBlur = () => {
+        setIsFocused(false);
+    };
 
     const handleAddIconClick = () => {
         setShowNewCommunity(true);
@@ -99,18 +108,18 @@ function HomePage()
             <div style={{ position: 'fixed', bottom: '20px', right: '50%', zIndex: '1000' }}>
                 <AddButton onClick={handleAddIconClick} />
             </div>
-            <div style={{ position: 'fixed', top: '20px', left: '20px', zIndex: '1000' }}>
-                <Header/>
-            </div>
             <div style={{ position: 'fixed', top: '20px', left: '500px', zIndex: '1000' }}>
                 <input
                     type="text"
-                    placeholder="Search by community"
+                    placeholder={isFocused ? '' : 'Search by topic'}
                     value={searchQuery}
+                    onFocus={handleFocus}
+                    onBlur={handleBlur}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    style={{ width: '300px', padding: '5px' }}
+                    style={{ width: '300px', padding: '5px', textAlign: 'center' }}
                 />
-                </div>
+             </div>
+                <SidebarUsers/>
         </div>
     );
     
