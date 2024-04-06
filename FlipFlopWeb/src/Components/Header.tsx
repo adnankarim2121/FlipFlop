@@ -4,7 +4,7 @@ function Header ()
 {
     return(
         <Link to="/">
-            <img src={flipFlopLogo} alt="Image" style={{ maxWidth: '10%', maxHeight: '10%', objectFit: 'contain' }} />
+            <img src={flipFlopLogo} alt="Image" style={{ maxWidth: '50%', maxHeight: '10%', objectFit: 'contain', paddingLeft:20 }} />
         </Link>
     )
 }

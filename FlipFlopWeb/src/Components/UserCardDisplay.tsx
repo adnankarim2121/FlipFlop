@@ -146,6 +146,7 @@ const UserCardDisplay: FC<UserCardDetails> = ({index, userName, title, teamOne, 
     }
 
     const toggleTimeline = () => {
+      console.log(showTimeline)
       setShowTimeline(!showTimeline);
     };
     return(

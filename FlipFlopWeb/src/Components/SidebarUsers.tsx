@@ -16,7 +16,6 @@ function SidebarUsers()
     return(
 <div>
 <div style={{ position: 'fixed', top: '20px', left: '0%', zIndex: '1000' }}>
-<Header/>
 <Sidebar collapsed={true}>
 
   <Menu
@@ -32,6 +31,7 @@ function SidebarUsers()
       },
     }}
   >
+    <MenuItem component={<Header/>} ></MenuItem>
     <MenuItem icon={<Avatar src={userInfoObject?.picture} sx={{ width: 20, height: 20, fontSize: 8, margin:'auto' }}></Avatar>} disabled={true} component={<Link to="/todo" />} title="Settings"> Settings</MenuItem>
     <MenuItem icon={<TbFlipFlops/>} component={<Link to="/homePage" />} title="Communities"> Communities</MenuItem>
     <MenuItem icon={<RiLogoutCircleLine />} component={<Link to="/" />} onClick={() => googleLogout()} title="Logout">  Logout</MenuItem>
