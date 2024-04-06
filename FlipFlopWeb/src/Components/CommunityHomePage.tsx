@@ -10,12 +10,14 @@ import axios from "axios";
 import { useUser } from "../hooks/useUser";
 import { UserInfoLocal } from "../Interfaces/UserInfoLocal";
 import SidebarUsers from "./SidebarUsers";
+import Loader from "./Loader";
 
 function CommunityHomePage()
 {
     const navigate = useNavigate();
     var { urlQuestion} = useParams();
     const [userInfo, setUserInfo] = useUser();
+    const [loading, setLoading] = useState(true);
     const userInfoString = localStorage.getItem('userInfo');
     const userInfoObject: UserInfoLocal = JSON.parse(userInfoString!) as UserInfoLocal;
 
@@ -39,12 +41,12 @@ function CommunityHomePage()
     };
     
     const location = useLocation();
+    const {communityIndex} = location.state
     const [newCards, setNewCards] = useState<UserCardDetails[]>([])
     const [showNewCard, setShowNewCard] = useState<Boolean>(false);
     const [searchQuery, setSearchQuery] = useState<string>('');
     const [title, setTitle] = useState<string>('');
     const [description, setDescription] = useState<string>('');
-    const [communityIndex, setCommunityIndex] = useState<any>(0);
     const [renderCards, setRenderCards] = useState<Boolean>(false)
     const [isFocused, setIsFocused] = useState(false);
 
@@ -99,73 +101,85 @@ function CommunityHomePage()
     }
       useEffect (()=>
       {
+        setTimeout(() => {
+            setLoading(false); // Set loading to false when the operation is complete
+        }, 1500);
         getAllQuestions()
       }, [renderCards])
 
-      //I dont think we need this.
-    //   useEffect(() => {
-    //     if (location.state) {
-    //       const { title: newTitle, description: newDescription, communityIndex: newCommunityIndex } = location.state;
-    //       setTitle(newTitle || '');
-    //       setDescription(newDescription || '');
-    //       setCommunityIndex(newCommunityIndex || 0);
-    //     }
-    //   }, [location.state]);
-
-      return (
-    <div style={{ position: 'relative', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', overflowX: 'auto', whiteSpace: 'nowrap' }}>
-                {newCards.filter((newCard:any) =>
-    newCard.title.toLowerCase().includes(searchQuery.toLowerCase())
-  ).map((userCard, index) => (
-                        <div style={{marginRight:'50px'}} 
-                        onClick={() => {
-                            redirectToQuestionHomePage(userCard.title, userCard.teamOne, userCard.teamTwo, userCard.context, userCard.userName, userCard.link, userCard.profilePic, userCard.uuid);
-                        }}>
-                        <UserCard 
-                        key={index} 
-                        profilePic={userCard.profilePic}
-                        userName={userCard.userName} 
-                        title={userCard.title} 
-                        context={userCard.context}
-                        teamOne={userCard.teamOne} 
-                        teamTwo={userCard.teamTwo}
-                        link={userCard.link}/>
+    return (
+        <div style={{ position: 'relative', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            {loading ? (
+                <Loader />
+            ) : (
+                <>
+                    <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', overflowX: 'auto', whiteSpace: 'nowrap' }}>
+                        {newCards
+                            .filter((newCard: any) =>
+                                newCard.title.toLowerCase().includes(searchQuery.toLowerCase())
+                            )
+                            .map((userCard, index) => (
+                                <div style={{ marginRight: '50px' }}
+                                    onClick={() => {
+                                        redirectToQuestionHomePage(
+                                            userCard.title,
+                                            userCard.teamOne,
+                                            userCard.teamTwo,
+                                            userCard.context,
+                                            userCard.userName,
+                                            userCard.link,
+                                            userCard.profilePic,
+                                            userCard.uuid
+                                        );
+                                    }}
+                                    key={index}
+                                >
+                                    <UserCard
+                                        key={index}
+                                        profilePic={userCard.profilePic}
+                                        userName={userCard.userName}
+                                        title={userCard.title}
+                                        context={userCard.context}
+                                        teamOne={userCard.teamOne}
+                                        teamTwo={userCard.teamTwo}
+                                        link={userCard.link}
+                                    />
+                                </div>
+                            ))}
                     </div>
-                    ))}
-            </div>
-            {showNewCard && (
-                <div style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: '1000' }}>
-                    <NewCard onSubmit={handleNewCardSubmit} />
-                </div>
+                    {showNewCard && (
+                        <div style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: '1000' }}>
+                            <NewCard onSubmit={handleNewCardSubmit} />
+                        </div>
+                    )}
+                    <div style={{ position: 'fixed', bottom: '20px', right: '50%', zIndex: '1000' }}>
+                        <AddButton onClick={handleAddIconClick} />
+                    </div>
+                    <div style={{ position: 'fixed', top: '20px', marginTop: '60px', marginBottom: '60px', zIndex: '1000', justifyContent: 'center', alignItems: 'center' }}>
+                        <input
+                            type="text"
+                            placeholder={isFocused ? '' : 'Search by question'}
+                            value={searchQuery}
+                            onFocus={handleFocus}
+                            onBlur={handleBlur}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            style={{ width: '300px', padding: '5px', textAlign: 'center', borderRadius: 50 }}
+                        />
+                    </div>
+                    <div style={{ position: 'fixed', top: '20px', zIndex: '1000', justifyContent: 'center', alignItems: 'center' }}>
+                        <Typography variant="h5" component="div">
+                            {title}
+                        </Typography>
+                        <Typography variant="caption" component="div">
+                            {description}
+                        </Typography>
+                    </div>
+                    <SidebarUsers />
+                </>
             )}
-            <div style={{ position: 'fixed', bottom: '20px', right: '50%', zIndex: '1000' }}>
-                <AddButton onClick={handleAddIconClick} />
-            </div>
-
-            <div style={{ position: 'fixed', top: '20px', marginTop:'60px', marginBottom:'60px', zIndex: '1000', justifyContent: 'center', alignItems: 'center' }}>
-                <input
-                    type="text"
-                    placeholder={isFocused ? '' : 'Search by question'}
-                    value={searchQuery}
-                    onFocus={handleFocus}
-                    onBlur={handleBlur}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    style={{ width: '300px', padding: '5px', textAlign:'center', borderRadius: 50 }}
-                />
-                </div>
-
-            <div style={{ position: 'fixed', top: '20px', zIndex: '1000', justifyContent: 'center', alignItems: 'center' }}>
-                <Typography variant="h5" component="div">
-                        {title}
-                    </Typography>
-                    <Typography variant="caption" component="div">
-                        {description}
-                    </Typography>
-            </div>
-                <SidebarUsers/>
         </div>
     );
+    
 }
 
 export default CommunityHomePage
