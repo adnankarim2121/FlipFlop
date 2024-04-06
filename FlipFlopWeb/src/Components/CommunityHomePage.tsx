@@ -9,6 +9,7 @@ import { Typography } from "@mui/material";
 import axios from "axios";
 import { useUser } from "../hooks/useUser";
 import { UserInfoLocal } from "../Interfaces/UserInfoLocal";
+import SidebarUsers from "./SidebarUsers";
 
 function CommunityHomePage()
 {
@@ -132,9 +133,6 @@ function CommunityHomePage()
             <div style={{ position: 'fixed', bottom: '20px', right: '50%', zIndex: '1000' }}>
                 <AddButton onClick={handleAddIconClick} />
             </div>
-            <div style={{ position: 'fixed', top: '20px', left: '0%', zIndex: '1000' }}>
-                <Header/>
-            </div>
 
             <div style={{ position: 'fixed', top: '20px', marginTop:'60px', marginBottom:'60px', zIndex: '1000', justifyContent: 'center', alignItems: 'center' }}>
                 <input
@@ -154,7 +152,7 @@ function CommunityHomePage()
                         {description}
                     </Typography>
             </div>
-
+                <SidebarUsers/>
         </div>
     );
 }

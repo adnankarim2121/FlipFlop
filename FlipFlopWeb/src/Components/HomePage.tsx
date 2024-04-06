@@ -6,6 +6,7 @@ import CommunityCard from "./CommunityCard";
 import NewCommunityCard from "./NewCommunityCard";
 import { useNavigate, useParams } from 'react-router-dom'; 
 import axios from "axios";
+import SidebarUsers from "./SidebarUsers";
 
 function HomePage()
 {
@@ -99,18 +100,16 @@ function HomePage()
             <div style={{ position: 'fixed', bottom: '20px', right: '50%', zIndex: '1000' }}>
                 <AddButton onClick={handleAddIconClick} />
             </div>
-            <div style={{ position: 'fixed', top: '20px', left: '20px', zIndex: '1000' }}>
-                <Header/>
-            </div>
             <div style={{ position: 'fixed', top: '20px', left: '500px', zIndex: '1000' }}>
                 <input
                     type="text"
-                    placeholder="Search by community"
+                    placeholder="Search by topic"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     style={{ width: '300px', padding: '5px' }}
                 />
-                </div>
+             </div>
+                <SidebarUsers/>
         </div>
     );
     
