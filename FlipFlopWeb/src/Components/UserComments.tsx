@@ -80,6 +80,7 @@ const UserComments = ({
     handleDeleteNode(comment.id);
   };
 
+  //make sure to save all user local storage related stuff on sign up and login.
   return (
     <div style={{paddingTop:'50'}}>
     <Grid container direction="row" spacing={2} alignItems="center">
