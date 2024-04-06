@@ -73,7 +73,7 @@ const UserCard: FC<UserCardDetails> = ({index, userName, title, teamOne, teamTwo
     
 
     return(
-        <Card key={index} sx={{ minWidth: 275 }}>
+        <Card key={index} sx={{ minWidth: 275, border: '1px solid #ccc', borderRadius: 5, }}>
         <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative' }}>
             <Avatar src={profilePic} sx={{ bgcolor: deepOrange[500] }}></Avatar>
             <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>

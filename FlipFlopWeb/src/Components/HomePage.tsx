@@ -116,7 +116,7 @@ function HomePage()
                     onFocus={handleFocus}
                     onBlur={handleBlur}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    style={{ width: '300px', padding: '5px', textAlign: 'center' }}
+                    style={{ width: '300px', padding: '5px', textAlign: 'center', borderRadius: 50}}
                 />
              </div>
                 <SidebarUsers/>

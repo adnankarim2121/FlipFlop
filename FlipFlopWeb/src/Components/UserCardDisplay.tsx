@@ -150,7 +150,7 @@ const UserCardDisplay: FC<UserCardDetails> = ({index, userName, title, teamOne, 
     };
     return(
         <div>
-        <Card key={index} sx={{ minWidth: 575, display: 'flex', flexDirection: 'column' }}>
+        <Card key={index} sx={{ minWidth: 575, display: 'flex', flexDirection: 'column', border: '1px solid #ccc' }}>
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', position: 'relative' }}>
           <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative' }}>
             <Avatar  src={profilePic} sx={{ bgcolor: deepOrange[500] }}></Avatar>
