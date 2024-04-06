@@ -25,9 +25,9 @@ function SidebarUsers()
       },
     }}
   >
-    <MenuItem icon={<TbFlipFlops/>} component={<Link to="/homePage" />}> Communities</MenuItem>
-    <MenuItem icon={<GoGear />} component={<Link to="/todo" />}> Settings</MenuItem>
-    <MenuItem icon={<RiLogoutCircleLine />} component={<Link to="/" />} onClick={() => googleLogout()}>  Logout</MenuItem>
+    <MenuItem icon={<TbFlipFlops/>} component={<Link to="/homePage" />} title="Communities"> Communities</MenuItem>
+    <MenuItem icon={<GoGear />} disabled={true} component={<Link to="/todo" />} title="Settings"> Settings</MenuItem>
+    <MenuItem icon={<RiLogoutCircleLine />} component={<Link to="/" />} onClick={() => googleLogout()} title="Logout">  Logout</MenuItem>
   </Menu>
 </Sidebar>
 </div>
